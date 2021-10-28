@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Золотые цитаты</title>
+    <link rel="stylesheet" href="public/css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <script src="public/js/images-grid.js"></script>
+    <link rel="stylesheet" href="public/css/images-grid.css">
+</head>
+<body>
+    <a href="create"><button id="add" >+</button></a>
+    <div id="feed">
+        <div id="space"></div>
+        {{#each list}}
+        <div class="cont">
+            <div class="title-row">
+                <a class="id" href="/index/{{minus (minus (length @root.list) 1) @index}}">#{{minus (minus (length @root.list) 1) @index}}</a>
+                <div class="date">{{da}}</div>
+            </div>
+            <div class="content">
+                {{#if audio}}
+                <audio controls class="au" >
+                    <source src="{{audio}}" type="audio/mp3">
+                </audio>
+                <p style="color: rgb(189, 189, 189);">*если плеер выглядит как говно - юзайте хром!</p>
+                {{else}}
+                    {{#if (isArray qu)}} 
+                        {{#each qu}}
+                            {{#if (isObject this)}}
+                                {{!-- {{#or (not (eq element.text '')) b (not (eq (length element.images) 0)) }} --}}
+                                    <div class="nname-cont" style="margin-left:{{gap}}px">
+                                        {{#if (eq gap 0)}}
+                                            <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
+                                            {{#if element.text}}
+                                                <div style="display: inline-block; display: flex;"><div style="align-self: center; white-space: pre-line">{{element.text}}</div></div>
+                                            {{/if}}
+                                            {{#if element.images}}
+                                                <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
+                                            {{/if}}
+                                        {{!-- {{else if (gt gap 29)}}
+                                            <details class="det" style="margin-left: {{gap}}px;" onclick="bebr(this, 0)">
+                                                <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
+                                                {{#if element.text}}
+                                                    <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div style="align-self: center;">{{element.text}}</div></div>
+                                                {{/if}}
+                                                {{#if element.images}}
+                                                    <div class="gallery" style=";margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
+                                                {{/if}}
+                                                <summary onclick="bebr(this, 1)">Спойлер</summary>
+                                            </details> --}}
+                                        {{else}}
+                                            <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
+                                            {{#if element.text}}
+                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div style="align-self: center;">{{element.text}}</div></div>
+                                            {{/if}}
+                                            {{#if element.images}}
+                                                <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
+                                            {{/if}}
+                                        {{/if}}
+                                    </div>
+                                {{!-- {{/or}} --}}
+                            {{else}}
+                                <p style="padding: 10px; padding-left: 0px">{{this}}</p>
+                            {{/if}}
+                        {{/each}}
+                    {{else}}
+                        <div style="white-space: pre-line !important; padding: 10px; padding-left: 0px">{{qu}}</div>
+                    {{/if}}
+                {{/if}}
+                {{#if images}}
+                    <div class="gallery" id="{{minus (minus (length @root.list) 1) @index}}">{{#each images}}<div>{{this}}</div>{{/each}}</div>
+                {{/if}}
+            </div>
+            <div class="bottom-row">
+                {{#if link}}
+                <a href="{{link}}" class="author">- {{au}}</a>
+                {{else}}
+                <div class="author">- {{au}}</div>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <script>
+        $( document ).ready(function() {
+            a = document.getElementsByClassName('gallery')
+            for (var g = 0; g < a.length; g++)
+            {
+                b = a[g].childNodes
+                _id = a[g].id
+                var images = []
+                for (var i = 0; i < b.length; i++)
+                {
+                    images.push(b[i].innerHTML.split('amp;').join(''))
+                }
+                $('#' + _id).imagesGrid({
+                    images: images,
+                    align: false
+                });
+            }
+            var b = document.getElementsByClassName('nname-cont')
+            for (var x = 0; x < b.length; x++)
+            {
+                for (var y = x + 1; y < b.length; y++)
+                {
+                    if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
+                    {
+                        var content = b[y].innerHTML.replace(/\n<a.*a>/, '')
+                        if (content.includes('pre-line'))
+                        {
+                            var text = [b[y].innerText.slice(0,b[y].innerText.indexOf('\n')), b[y].innerText.slice(b[y].innerText.indexOf('\n')+1)][1]
+                            var _text = [b[x].innerText.slice(0,b[x].innerText.indexOf('\n')), b[x].innerText.slice(b[x].innerText.indexOf('\n')+1)][1] + '\n'
+                            var res_text = _text + text
+                            b[x].lastElementChild.innerText = res_text
+                        }
+                        if (b[y].innerHTML.includes('gallery'))
+                        {
+                            var gallery = b[y].lastElementChild
+                            b[x].appendChild(gallery)
+                        }
+                        b[y].style.display = "none"
+                    }
+                    else
+                    {
+                        x = y
+                    }
+                }
+            }
+        });
+        function bebr(event, k)
+        {
+            if (k == 0)
+            {
+                event.open = !event.open
+            }
+            else if (k == 1)
+            {
+                parent = event.parentElement
+                parent.open = !parent.open
+            }
+        }
+    </script>
+</body>
+</html>
