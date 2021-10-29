@@ -128,6 +128,18 @@ body
     /* text-align: center; */
 }
 
+#butt-cont
+{
+    width: 80px;
+    height: 150px;
+    position: fixed;
+    z-index: 9;
+    top: 10px;
+    right: 15px;
+    border-radius: 10px;
+    background-color: white;
+}
+
 #add:hover
 {
     background-color: #2c2929;
@@ -152,6 +164,7 @@ body
     /* background-color: #2e2e2e; */
     font-weight: 100;
     color: white;
+    background: white;
     border-radius: 20px;
     font-size: 35px;
     /* text-align: center; */
@@ -356,10 +369,10 @@ li {
     display: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     #feed
     {
-        width: 400px;
+        width: 380px;
     }
     #github
     {
@@ -440,6 +453,10 @@ li {
         border-radius: 5px;
         border: 1px solid #d4d4d4;
     }
+    #butt-cont
+    {
+        display: none;
+    }
 }
 
 #url
@@ -450,3 +467,4 @@ li {
     margin-top: 5vh;
     word-break: break-all;
 }
+
