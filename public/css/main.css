@@ -63,6 +63,7 @@ body
     height: 20px;
     border-bottom: 1px solid #dadada;
     padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .id
@@ -93,7 +94,7 @@ body
     display: block;
     position: relative;
     height: 20px;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 .author
@@ -351,7 +352,8 @@ li {
 .nname-cont
 {
     white-space: nowrap;
-    padding:10px;
+    padding:20px;
+    padding-top: 0px;
     padding-left: 0px;
     position: relative;
 }
