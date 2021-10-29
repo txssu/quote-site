@@ -15,7 +15,7 @@
         <div id="textcont">СЬЛРЖАЛСЧ цитатник</div>
     </div>
     <div id="butt-cont"></div>
-    <a href="create"><button id="add" >+</button></a>
+    <a href="create"><button id="add" ><span>+</span></button></a>
     <a href="https://github.com/RedMaun/quote-site"><button id="github">
         <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/github-icon.svg">
     </button></a>
@@ -44,7 +44,7 @@
                                                 <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block; display: flex; font-size: 16px !important;"><div style="align-self: center; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div></div>
+                                                <div style="display: inline-block; display: flex; font-size: 16px !important;"><div class="el-text" style="align-self: center; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -65,7 +65,7 @@
                                                 <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div style="align-self: center; font-size: 16px !important;">{{element.text}}</div></div>
+                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div class="el-text" style="align-self: center; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -74,15 +74,15 @@
                                     </div>
                                 {{!-- {{/or}} --}}
                             {{else}}
-                                <p style="padding: 20px; padding-left: 0px; padding-top: 0px; font-size: 16px !important;">{{this}}</p>
+                                <p class="el-text" style="padding: 20px; padding-left: 0px; padding-top: 0px; font-size: 16px !important;">{{this}}</p>
                             {{/if}}
                         {{/each}}
                     {{else}}
                         {{#if (not (eq (length qu) 0))}}
                             {{#if images}}
-                                <div style="white-space: pre-line !important; padding-bottom: 5px;font-size: 16px !important;">{{qu}}</div>
+                                <div class="el-text" style="white-space: pre-line !important; padding-bottom: 5px;font-size: 16px !important;">{{qu}}</div>
                             {{else}}
-                                <div style="white-space: pre-line !important; padding: 20px; padding-left: 0px; padding-top: 0px; font-size: 16px !important;">{{qu}}</div>
+                                <div class="el-text" style="white-space: pre-line !important; padding: 20px; padding-left: 0px; padding-top: 0px; font-size: 16px !important;">{{qu}}</div>
                             {{/if}}
                         {{/if}}
                     {{/if}}
@@ -117,6 +117,31 @@
                     images: images,
                     align: false
                 });
+            }
+            var c = document.getElementsByClassName('el-text')
+            function bla(element)
+            {
+                try
+                {
+                    if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/))
+                    {
+                        var temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
+                        var one = temp[1]
+                        var two = temp[2]
+                        var three = temp[3]
+                        link = 'https://vk.com/' + one + two
+                        element.innerHTML = element.innerHTML.replace(temp[0], '<a href="'+link+'">'+ three +'</a>')
+                        console.log(element)
+                        bla(element)
+                    }
+
+                } catch(e) {
+                    return false
+                }
+            }
+            for (var x = 0; x < c.length; x++)
+            {
+                bla(c[x])
             }
             var b = document.getElementsByClassName('nname-cont')
             for (var x = 0; x < b.length; x++)

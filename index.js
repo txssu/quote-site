@@ -177,7 +177,7 @@ async function start() {
     try {
       await mongoose.connect(
         '',
-        {
+	{
           useNewUrlParser: true
         }
       )
