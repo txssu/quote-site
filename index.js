@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const quo = require('./models/quote')
 var urlencodedParser = bodyParser.urlencoded({ extended: true })
 
+
 var helpers = require('handlebars-helpers')();
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -70,13 +71,13 @@ app.get('/', async function(req, res) {
         }
       }
     }
-    res.render('index', {title: 'Золотой цитатник', list})
+    res.render('index', {title: 'СЬЛРЖАЛСЧ цитатник', list})
 })
 
 app.get('/index', async function(req, res) {
     var list = await quo.find({}).lean();
     list = list.reverse();
-    res.render('index', {title: 'Золотой цитатник', list})
+    res.render('index', {title: 'СЬЛРЖАЛСЧ цитатник', list})
 })
 
 app.get('/index/:id', async function(req, res) {
@@ -180,7 +181,7 @@ async function start() {
           useNewUrlParser: true
         }
       )
-      https.createServer(options, app).listen(2087);
+      https.createServer(options, app).listen();
     } catch (e) {
       console.log(e)
     }

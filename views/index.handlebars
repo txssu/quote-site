@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Золотые цитаты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="public/js/images-grid.js"></script>
     <link rel="stylesheet" href="public/css/images-grid.css">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
 </head>
 <body>
+    <div id="headd">
+        <div id="textcont">СЬЛРЖАЛСЧ цитатник</div>
+    </div>
     <a href="create"><button id="add" >+</button></a>
+    <a href="https://github.com/RedMaun/quote-site"><button id="github">
+        <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/github-icon.svg">
+    </button></a>
     <div id="feed">
         <div id="space"></div>
         {{#each list}}
@@ -37,7 +43,7 @@
                                                 <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block; display: flex;"><div style="align-self: center; white-space: pre-line">{{element.text}}</div></div>
+                                                <div style="display: inline-block; display: flex; font-size: 16px !important;"><div style="align-self: center; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
@@ -58,7 +64,7 @@
                                                 <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div style="align-self: center;">{{element.text}}</div></div>
+                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div style="align-self: center; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
@@ -67,12 +73,12 @@
                                     </div>
                                 {{!-- {{/or}} --}}
                             {{else}}
-                                <p style="padding: 10px; padding-left: 0px">{{this}}</p>
+                                <p style="padding: 10px; padding-left: 0px; font-size: 16px !important;">{{this}}</p>
                             {{/if}}
                         {{/each}}
                     {{else}}
                         {{#if (not (eq (length qu) 0))}}
-                            <div style="white-space: pre-line !important; padding: 10px; padding-left: 0px">{{qu}}</div>
+                            <div style="white-space: pre-line !important; padding: 10px; padding-left: 0px; font-size: 16px !important;">{{qu}}</div>
                         {{/if}}
                     {{/if}}
                 {{/if}}
@@ -90,6 +96,7 @@
         </div>
         {{/each}}
     </div>
+    <script src="https:\/\/cdnjs.cloudflare.com/ajax/libs/polymer/0.3.4/platform.js"></script>
     <script>
         $( document ).ready(function() {
             a = document.getElementsByClassName('gallery')
@@ -148,6 +155,8 @@
                 parent.open = !parent.open
             }
         }
+        
     </script>
+    
 </body>
 </html>

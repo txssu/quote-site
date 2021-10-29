@@ -6,11 +6,12 @@
 
 body
 {
-    background: #ffd9b8;
+    /* background: #eeeeee; */
+    background: #e7e7e7;
     font-family: 'Roboto', sans-serif;
     overflow-y: scroll;
 }
-
+/*
 ::-webkit-scrollbar {
     height: 12px;
     width: 12px;
@@ -20,12 +21,12 @@ body
 ::-webkit-scrollbar-thumb {
     background: rgb(255, 255, 255);
     /* -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75); */
-} 
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75); 
+}
 
 ::-webkit-scrollbar-corner {
     background: #ffd9b8;
-}
+}*/
 
 .cont
 {
@@ -36,9 +37,10 @@ body
     margin-left: auto;
     margin-right: auto;
     /* border: 2px solid #ff7700; */
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: white;
-    margin-bottom: 2vh;
+    margin-bottom: 20px;
+    border: 1px solid #d4d4d4;
 }
 
 #feed
@@ -82,7 +84,7 @@ body
     display: block;  
     margin-top: 5px;
     word-wrap: break-word;
-    color: #1a1a1a;
+    color: black    ;
     /* white-space: pre-line; */
 }
 
@@ -110,40 +112,81 @@ body
 {
     outline: none;
     position: fixed;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     right: 25px;
     top: 25px;
+    z-index: 10;
     /* border: 1px solid white; */
     border: none;
-    background-color: #ffbf88;
+    background-color: #171515;
     font-weight: 100;
     color: white;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 35px;
+    cursor: pointer;
     /* text-align: center; */
 }
 
 #add:hover
 {
-    background-color: #ffb575;
+    background-color: #2c2929;
 }
 
 #add:active
 {
-    background-color: #ffac64;
+    background-color: #000000;
 }
+
+#github
+{
+    outline: none;
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    right: 35px;
+    top: 100px;
+    z-index: 10;
+    /* border: 1px solid white; */
+    border: none;
+    /* background-color: #2e2e2e; */
+    font-weight: 100;
+    color: white;
+    border-radius: 20px;
+    font-size: 35px;
+    /* text-align: center; */
+    cursor: pointer;
+}
+
+/* #add:hover
+{
+    background-color: #2c2929;
+}
+
+#add:active
+{
+    background-color: #000000;
+} */
+
+#github img
+{
+    width: 100%;
+    height: auto;
+    color: red;
+}
+
 
 #window
 {
     top: 10vh;
     padding: 30px;
     position: relative;
-    width: 40%;
-    height: 45vh;
+    width: 600px;
+    height: 400px;
     margin: auto;
-    background: #fcfcfc;
+    background: white;
     border-radius: 5px;
+    border: 1px solid #d4d4d4;
 }
 
 #quote
@@ -159,7 +202,7 @@ body
     border: 1px solid #dadada;
     padding: 2%;
     font-size: 15px;
-    background: white;
+    background: rgb(250, 250, 250);
     resize: none;
     color: #1a1a1a;
 }
@@ -181,7 +224,7 @@ body
     border-radius: 5px;
     border: 1px solid #dadada;
     outline: none;
-    background: white;
+    background: rgb(250, 250, 250);
     color: #1a1a1a;
 }
 
@@ -189,27 +232,26 @@ body
 {
     position: fixed;
     outline: none;
-    width: 120px;
-    height: 50px;
-    left: 25px;
+    width: 90px;
+    height: 45px;
+    right: 25px;
     top: 25px;
     /* border: 1px solid white; */
     border: none;
-    background-color: #ffffff;
-    font-weight: 100;
-    color: #1a1a1a;
-    border-radius: 5px;
-    font-size: 20px;
+    background-color: #2e2e2e;
+    color: white;
+    border-radius: 15px;
+    font-size: 16px;
 }
 
 #back:hover
 {
-    background-color: #f3f3f3;
+    background-color: #383838;
 }
 
 #back:active
 {
-    background-color: #c7c7c7;
+    background-color: #242424;
 }
 
 .lab
@@ -254,7 +296,7 @@ a .author
 
 a:hover
 {
-    color: #ffb86c;
+    color: #2979FF;
 }
 
 .au
@@ -307,4 +349,104 @@ li {
     outline: none;
     padding: 10px;
     border-radius: 5px;
+}
+
+#headd
+{
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    #feed
+    {
+        width: 400px;
+    }
+    #github
+    {
+        outline: none;
+        position: fixed;
+        width: 25px;
+        height: 25px;
+        right: 60px;
+        top: 10px;
+        z-index: 10;
+        /* border: 1px solid white; */
+        border: none;
+        /* background-color: #2e2e2e; */
+        font-weight: 100;
+        color: white;
+        border-radius: 20px;
+        font-size: 35px;
+        /* text-align: center; */
+        cursor: pointer;
+        background-color: transparent;
+    }
+    #github img
+    {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 0px;
+        top: -8px;
+    }
+    #add
+    {
+        outline: none;
+        position: fixed;
+        width: 25px;
+        height: 25px;
+        right: 15px;
+        top: 10px;
+        z-index: 10;
+        /* border: 1px solid white; */
+        border: none;
+        background-color: #171515;
+        font-weight: 100;
+        color: white;
+        border-radius: 30px;
+        font-size: 15px;
+        cursor: pointer;
+        /* text-align: center; */
+    }
+    #headd
+    {
+        display: block;
+        position: fixed;
+        height: 45px;
+        width: 100%;
+        background: white;
+        z-index: 10;
+        border-bottom: 2px solid #d4d4d4;
+    }
+    #textcont
+    {
+        width: 70%;
+        height: 90%;
+        position: relative;
+        top: 13px;
+        left: 15px;
+        font-size: 18px;
+    }
+    
+    #window
+    {
+        top: 10vh;
+        padding: 30px;
+        position: relative;
+        width: 300px;
+        height: 320px;
+        margin: auto;
+        background: white;
+        border-radius: 5px;
+        border: 1px solid #d4d4d4;
+    }
+}
+
+#url
+{
+    display: block; 
+    text-align: center;
+    font-size:30px;
+    margin-top: 5vh;
+    word-break: break-all;
 }
