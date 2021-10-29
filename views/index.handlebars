@@ -33,7 +33,9 @@
                                 {{!-- {{#or (not (eq element.text '')) b (not (eq (length element.images) 0)) }} --}}
                                     <div class="nname-cont" style="margin-left:{{gap}}px">
                                         {{#if (eq gap 0)}}
-                                            <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
+                                            {{#if element.name}}
+                                                <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
+                                            {{/if}}
                                             {{#if element.text}}
                                                 <div style="display: inline-block; display: flex;"><div style="align-self: center; white-space: pre-line">{{element.text}}</div></div>
                                             {{/if}}
@@ -52,7 +54,9 @@
                                                 <summary onclick="bebr(this, 1)">Спойлер</summary>
                                             </details> --}}
                                         {{else}}
-                                            <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
+                                            {{#if element.name}}
+                                                <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
+                                            {{/if}}
                                             {{#if element.text}}
                                                 <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div style="align-self: center;">{{element.text}}</div></div>
                                             {{/if}}
@@ -106,7 +110,7 @@
             {
                 for (var y = x + 1; y < b.length; y++)
                 {
-                    if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
+                    if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement || !(b[x].innerHTML.includes('<a')) && !(b[x].innerHTML.includes('<a')) && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
                     {
                         var content = b[y].innerHTML.replace(/\n<a.*a>/, '')
                         if (content.includes('pre-line'))
