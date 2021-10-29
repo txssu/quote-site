@@ -176,7 +176,7 @@ app.use(function(req, res, next) {
 async function start() {
     try {
       await mongoose.connect(
-        'mongodb+srv://redmaun:jEYzpYp789sQbWC2@cluster0.gmf8t.mongodb.net/quote',
+        '',
         {
           useNewUrlParser: true
         }
