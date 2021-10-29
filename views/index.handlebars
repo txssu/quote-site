@@ -71,7 +71,9 @@
                             {{/if}}
                         {{/each}}
                     {{else}}
-                        <div style="white-space: pre-line !important; padding: 10px; padding-left: 0px">{{qu}}</div>
+                        {{#if (not (eq (length qu) 0))}}
+                            <div style="white-space: pre-line !important; padding: 10px; padding-left: 0px">{{qu}}</div>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
                 {{#if images}}
