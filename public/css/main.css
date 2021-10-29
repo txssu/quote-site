@@ -88,12 +88,10 @@ body
 
 .bottom-row
 {
-    /* border-top: 1px solid #dadada;
-    padding-top: 10px; */
     display: block;
     position: relative;
     height: 20px;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
 .author
@@ -103,6 +101,9 @@ body
     height: 20px;
     font-weight: 500;
     color: #838383;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: right;
 }
 
 #add
