@@ -2,18 +2,19 @@ const https = require('https');
 const fs = require('fs');
 const mongoose = require('mongoose')
 const express = require('express');
-var exphbs  = require('express-handlebars');
+const exphbs  = require('express-handlebars');
 const app = express();
-var path = require ('path');
+const path = require ('path');
 const bodyParser = require('body-parser')
 const quo = require('./models/quote')
-var urlencodedParser = bodyParser.urlencoded({ extended: true })
+const urlencodedParser = bodyParser.urlencoded({ extended: true })
+const helpers = require('handlebars-helpers')();
+const dotenv = require('dotenv');
 
+dotenv.config();
 
-var helpers = require('handlebars-helpers')();
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
-
 app.use('/public', express.static('public'))
 app.use(express.static(path.join(__dirname + '/public')));
 
@@ -71,12 +72,6 @@ app.get('/', async function(req, res) {
         }
       }
     }
-    res.render('index', {title: 'СЬЛРЖАЛСЧ цитатник', list})
-})
-
-app.get('/index', async function(req, res) {
-    var list = await quo.find({}).lean();
-    list = list.reverse();
     res.render('index', {title: 'СЬЛРЖАЛСЧ цитатник', list})
 })
 
@@ -163,10 +158,14 @@ app.post('/quote', urlencodedParser, async function(req, res) {
     res.redirect('/')
 })
 
+app.get('/robots.txt', function (req, res) {
+  res.type('text/plain');
+  res.send("User-agent: *\nAllow: /");
+});
+
 app.use(function(req, res, next) {
   res.status(404);
 
-  // respond with html page
   if (req.accepts('html')) {
     res.render('404', { url: req.get('host') + req.url });
     return;
@@ -176,7 +175,7 @@ app.use(function(req, res, next) {
 async function start() {
     try {
       await mongoose.connect(
-        '',
+        process.env.TOKEN,
 	{
           useNewUrlParser: true
         }

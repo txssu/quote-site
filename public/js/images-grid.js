@@ -194,12 +194,12 @@
 
         item.append(
             $('<div>', {
-                class: 'image-wrap',
-                loading: 'lazy'
+                class: 'image-wrap'
             }).append(
                 $('<img>', {
                     src: src,
                     alt: alt,
+                    loading: 'lazy',
                     title: title,
                     on: {
                         load: function(event) {
