@@ -31,13 +31,17 @@
                         {{#each qu}}
                             {{#if (isObject this)}}
                                 {{!-- {{#or (not (eq element.text '')) b (not (eq (length element.images) 0)) }} --}}
+                                {{#if element.name}}
                                     <div class="nname-cont" style="margin-left:{{gap}}px">
+                                {{else}}
+                                    <div class="nname-cont" style="padding: 0px;">
+                                {{/if}}
                                         {{#if (eq gap 0)}}
                                             {{#if element.name}}
-                                                <a href="{{element.link}}" class="nname" style="display: inline-block; color: #919191">{{element.name}}</a>
+                                                <a href="{{element.link}}" class="nname" style="display: inline-bloc">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block; display: flex;"><div class="el-text" style="align-self: center; white-space: pre-line">{{element.text}}</div></div>
+                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div class="el-text" style="align-self: center; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -55,10 +59,10 @@
                                             </details> --}}
                                         {{else}}
                                             {{#if element.name}}
-                                                <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
+                                                <a class="nname" href="{{element.link}}" style="display: inline-block;">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div class="el-text" style="align-self: center;">{{element.text}}</div></div>
+                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div class="el-text" style="align-self: center; font-size: 16px !important;">{{element.text}}</div></div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -67,15 +71,15 @@
                                     </div>
                                 {{!-- {{/or}} --}}
                             {{else}}
-                                <p class="el-text" style="padding: 20px; padding-left: 0px; padding-top: 0px">{{this}}</p>
+                                <div class="nname-cont" style="padding-bottom: 0px;"><p class="el-text" style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;">{{this}}</p></div>
                             {{/if}}
                         {{/each}}
                     {{else}}
                         {{#if (not (eq (length qu) 0))}}
                             {{#if images}}
-                                <div class="el-text" style="white-space: pre-line !important; padding-bottom: 5px; font-size: 16px !important;">{{qu}}</div>
+                                <div class="el-text" style="white-space: pre-line !important; padding-bottom: 5px;font-size: 16px !important;">{{qu}}</div>
                             {{else}}
-                                <div class="el-text" style="white-space: pre-line !important; padding: 20px; padding-left: 0px; padding-top: 0px; font-size: 16px !important;">{{qu}}</div>
+                                <div class="el-text" style="padding-bottom: 20px; display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;">{{qu}}</div>
                             {{/if}}
                         {{/if}}
                     {{/if}}
