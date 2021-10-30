@@ -83,6 +83,14 @@ $( document ).ready(function() {
             }
         }
     }
+    var b = document.getElementsByClassName('nname-cont')
+    for (var x = 0; x < b.length; x++)
+    {
+        if (b[x] == b[x].parentElement.lastElementChild)
+        {
+            b[x].style.paddingBottom = "20px";
+        }
+    }
 });
 function bebr(event, k)
 {
