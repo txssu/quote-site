@@ -60,7 +60,7 @@ $( document ).ready(function() {
     {
         for (var y = x + 1; y < b.length; y++)
         {
-            if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement || !(b[x].innerHTML.includes('<a')) && !(b[x].innerHTML.includes('<a')) && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
+            if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
             {
                 var content = b[y].innerHTML.replace(/\n<a.*a>/, '')
                 if (content.includes('pre-line'))
