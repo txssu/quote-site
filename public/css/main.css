@@ -257,6 +257,7 @@ body
     color: white;
     border-radius: 15px;
     font-size: 16px;
+    z-index: 10;
 }
 
 #back:hover
