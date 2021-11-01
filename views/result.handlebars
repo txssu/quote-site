@@ -38,10 +38,10 @@
                                 {{/if}}
                                         {{#if (eq gap 0)}}
                                             {{#if element.name}}
-                                                <a href="{{element.link}}" class="nname" style="display: inline-bloc">{{element.name}}</a>
+                                                <a href="{{element.link}}" class="nname" style="display: inline-block">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div class="el-text" style="align-self: center; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div></div>
+                                                <div class="el-text"style="display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -62,7 +62,7 @@
                                                 <a class="nname" href="{{element.link}}" style="display: inline-block;">{{element.name}}</a>
                                             {{/if}}
                                             {{#if element.text}}
-                                                <div style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;"><div class="el-text" style="align-self: center; font-size: 16px !important;">{{element.text}}</div></div>
+                                                <div class="el-text" style="display: block; height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -71,7 +71,7 @@
                                     </div>
                                 {{!-- {{/or}} --}}
                             {{else}}
-                                <div class="nname-cont" style="padding-bottom: 0px;"><p class="el-text" style="display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;">{{this}}</p></div>
+                                <div class="nname-cont" style="padding-bottom: 0px;"><p class="el-text" style="display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{this}}</p></div>
                             {{/if}}
                         {{/each}}
                     {{else}}
@@ -79,13 +79,13 @@
                             {{#if images}}
                                 <div class="el-text" style="white-space: pre-line !important; padding-bottom: 5px;font-size: 16px !important;">{{qu}}</div>
                             {{else}}
-                                <div class="el-text" style="padding-bottom: 20px; display: inline-block;height: auto; display: flex; white-space: pre-line; font-size: 16px !important;">{{qu}}</div>
+                                <div class="el-text" style="padding-bottom: 20px; display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{qu}}</div>
                             {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/if}}
                 {{#if images}}
-                    <div class="gallery" style="padding-bottom: 20px;" id="{{minus (minus (length @root.list) 1) @index}}">{{#each images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
+                    <div class="gallery" style="padding-bottom: 20px;"id="{{minus (minus (length @root.list) 1) @index}}">{{#each images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
                 {{/if}}
             </div>
             <div class="bottom-row">
