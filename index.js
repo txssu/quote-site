@@ -169,7 +169,8 @@ app.post('/quote', urlencodedParser, async function(req, res) {
     const quot = new quo({
         qu: req.body['quote'],
         au: req.body['auth'],
-        da: fff
+        da: fff,
+        ip: (req.headers['x-forwarded-for']).split(',')[0]
     })
     await quot.save()
     res.redirect('/')

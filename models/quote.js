@@ -10,8 +10,8 @@ const schema = new Schema({
   da: {
     type: String
   },
-  ha: {
-    type: Number
+  ip: {
+    type: String
   }
 })
 
