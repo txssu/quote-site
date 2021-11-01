@@ -90,6 +90,38 @@ $( document ).ready(function() {
         {
             b[x].style.paddingBottom = "20px";
         }
+        var chi = b[x].childNodes
+        function space(el)
+        {
+            chi = el.childNodes
+            var a = 0
+            for (var i = 0; i < chi.length; i++)
+            {
+                if (chi[i].className != '' && chi[i].className != undefined && chi[i].className.includes('gallery'))
+                {
+                    a = 1
+                }
+            }
+            if (a == 0)
+            {
+                el.style.paddingBottom = "20px";
+            }
+            
+        }
+        for (var i = 0; i < chi.length; i++)
+        {
+            if (chi[i].className != '' && chi[i].className != undefined && chi[i].className.includes('gallery'))
+            {
+                if (b[x - 1].parentElement == b[x].parentElement)
+                {
+                    space(b[x - 1])
+                } 
+                b[x].style.paddingBottom = "20px";
+                break
+            }
+        }
+        
+
     }
 });
 function bebr(event, k)
