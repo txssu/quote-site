@@ -120,6 +120,14 @@ $( document ).ready(function() {
     {
         bla(c[x])
     }
+    var y = document.getElementsByClassName('nname-cont')
+    for (var x = 0; x < y.length; x++)
+    {
+        if (y[x].style.display == 'none')
+        {
+            y[x].parentNode.removeChild(y[x]);
+        }
+    }
     // /(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/ - link mathcing
     // /\[(id|club)([0-9]+)\|([^\]]+)\]/ - vkid matching
 });

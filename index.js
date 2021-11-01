@@ -11,6 +11,8 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true })
 const helpers = require('handlebars-helpers')();
 const dotenv = require('dotenv');
 
+const LIMIT = 15
+
 dotenv.config();
 
 app.engine('handlebars', exphbs());
@@ -140,7 +142,22 @@ app.get('/create', function(req, res){
   res.render('form', {title: 'Добавить цитату'})
 })
 
+var previousHour = new Date().toLocaleTimeString('ru-RU', { hour12: false, hour: "numeric"})
+var count = 0
+
 app.post('/quote', urlencodedParser, async function(req, res) {
+  var currentHour = new Date().toLocaleTimeString('ru-RU', { hour12: false, hour: "numeric"})
+  if (previousHour == currentHour)
+  {
+    count += 1;
+  }
+  else
+  {
+    previousHour = currentHour;
+    count = 0;
+  }
+  if (count <= LIMIT)
+  {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -156,6 +173,12 @@ app.post('/quote', urlencodedParser, async function(req, res) {
     })
     await quot.save()
     res.redirect('/')
+  }
+  else
+  {
+    res.status(403);
+    res.send('limit reached')
+  }
 })
 
 app.get('/robots.txt', function (req, res) {
