@@ -71,12 +71,24 @@ $( document ).ready(function() {
         {
             if (chi[i].className != '' && chi[i].className != undefined && chi[i].className.includes('gallery'))
             {
-                if (b[x - 1].parentElement == b[x].parentElement)
+                if (x != 0)
                 {
-                    space(b[x - 1])
-                } 
-                b[x].style.paddingBottom = "20px";
-                break
+                    if (b[x - 1].parentElement == b[x].parentElement)
+                    {
+                        space(b[x - 1])
+                    } 
+                    b[x].style.paddingBottom = "20px";
+                    break
+                }
+                else
+                {
+                    if (b[x + 1].parentElement == b[x].parentElement)
+                    {
+                        space(b[x + 1])
+                    } 
+                    b[x].style.paddingBottom = "20px";
+                    break
+                }
             }
         }
     }
