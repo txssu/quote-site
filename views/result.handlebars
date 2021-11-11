@@ -31,11 +31,12 @@
                         {{#each qu}}
                             {{#if (isObject this)}}
                                 {{!-- {{#or (not (eq element.text '')) b (not (eq (length element.images) 0)) }} --}}
-                                {{#if element.name}}
+                                {{!-- {{#if element.name}}
                                     <div class="nname-cont" style="margin-left:{{gap}}px">
                                 {{else}}
                                     <div class="nname-cont" style="padding: 0px;">
-                                {{/if}}
+                                {{/if}} --}}
+                                    <div class="nname-cont" style="margin-left:{{gap}}px">
                                         {{#if (eq gap 0)}}
                                             {{#if element.name}}
                                                 <a href="{{element.link}}" class="nname" style="display: inline-block">{{element.name}}</a>

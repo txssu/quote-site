@@ -51,6 +51,10 @@
   overflow: hidden;
   vertical-align: middle;
 }
+.image-wrap
+{
+  width: 100%;
+}
 .imgs-grid .imgs-grid-image .image-wrap img {
   position: relative;
   width: 100%;
