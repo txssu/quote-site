@@ -36,15 +36,7 @@
                                 {{else}}
                                     <div class="nname-cont" style="padding: 0px;">
                                 {{/if}} --}}
-                                {{#if element.name}}
-                                    <div class="nname-cont" style="margin-left:{{gap}}px">
-                                {{else}}
-                                    {{#if (eq gap 0)}}
-                                        <div class="nname-cont" style="padding: 0px;">
-                                    {{else}}
-                                        <div class="nname-cont" style="margin-left:{{gap}}px; padding-top: 20px">
-                                    {{/if}}
-                                {{/if}}
+                                <div class="nname-cont" style="margin-left:{{gap}}px">
                                         {{#if (eq gap 0)}}
                                             {{#if element.name}}
                                                 <a href="{{element.link}}" class="nname" style="display: inline-block">{{element.name}}</a>
