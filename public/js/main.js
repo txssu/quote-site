@@ -19,23 +19,33 @@ $( document ).ready(function() {
     {
         for (var y = x + 1; y < b.length; y++)
         {
-            if (b[x].innerText.split('\n')[0] == b[y].innerText.split('\n')[0] && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
+            if (b[x].firstElementChild && b[y].firstElementChild)
             {
-                var content = b[y].innerHTML.replace(/\n<a.*a>/, '')
-                if (content.includes('pre-line'))
-                {
-                    var text = [b[y].innerText.slice(0,b[y].innerText.indexOf('\n')), b[y].innerText.slice(b[y].innerText.indexOf('\n')+1)][1]
-                    var _text = [b[x].innerText.slice(0,b[x].innerText.indexOf('\n')), b[x].innerText.slice(b[x].innerText.indexOf('\n')+1)][1] + '\n'
-                    var res_text = _text + text
-                    b[x].lastElementChild.innerText = res_text
-                }
-                if (b[y].innerHTML.includes('gallery'))
-                {
-                    var gallery = b[y].lastElementChild
-                    b[x].appendChild(gallery)
-                }
-                b[y].style.display = "none"
+                var name1 = b[x].firstElementChild.innerText
+                var name2 = b[y].firstElementChild.innerText
             }
+            if (name1 == name2 && b[x].style.marginLeft == b[y].style.marginLeft && b[x].parentElement == b[y].parentElement)
+            {
+                var temp = document.createElement('div');
+                temp.className = 'el-text';
+                temp.style = "white-space: pre-line;"
+                if (b[y].getElementsByClassName('el-text')[0] != undefined)
+                {
+                    for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++)
+                    {
+                        temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText;
+                    }
+                }
+                b[x].appendChild(temp);
+                if (b[y].getElementsByClassName('gallery')[0] != undefined)
+                {
+                    for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++)
+                    {
+                        b[x].appendChild(b[y].getElementsByClassName('gallery')[i]);
+                    }
+                }
+                b[y].style.display = "none";
+            } 
             else
             {
                 x = y
@@ -132,26 +142,26 @@ $( document ).ready(function() {
     {
         bla(c[x])
     }
-    // var y = document.getElementsByClassName('nname-cont')
-    // for (var x = 0; x < y.length; x++)
-    // {
-    //     if (y[x].style.display == 'none')
-    //     {
-    //         y[x].parentNode.removeChild(y[x]);
-    //     }
-    // }
+    var y = document.getElementsByClassName('nname-cont')
+    for (var x = 0; x < y.length; x++)
+    {
+        if (y[x].style.display == 'none')
+        {
+            y[x].parentNode.removeChild(y[x]);
+        }
+    }
     // /(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/ - link mathcing
     // /\[(id|club)([0-9]+)\|([^\]]+)\]/ - vkid matching
 });
-function bebr(event, k)
-{
-    if (k == 0)
-    {
-        event.open = !event.open
-    }
-    else if (k == 1)
-    {
-        parent = event.parentElement
-        parent.open = !parent.open
-    }
-}
+// function bebr(event, k)
+// {
+//     if (k == 0)
+//     {
+//         event.open = !event.open
+//     }
+//     else if (k == 1)
+//     {
+//         parent = event.parentElement
+//         parent.open = !parent.open
+//     }
+// }
