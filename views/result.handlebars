@@ -22,10 +22,12 @@
             </div>
             <div class="content">
                 {{#if audio}}
-                <audio controls class="au" >
-                    <source src="{{audio}}" type="audio/mp3">
-                </audio>
-                <p style="color: rgb(189, 189, 189);">*если плеер выглядит как говно - юзайте хром!</p>
+                <div class="nname-cont">
+                    <audio controls class="au" >
+                        <source src="{{audio}}" type="audio/mp3">
+                    </audio>
+                </div>
+                
                 {{else}}
                     {{#if (isArray qu)}} 
                         {{#each qu}}
@@ -43,6 +45,11 @@
                                             {{/if}}
                                             {{#if element.text}}
                                                 <div class="el-text"style="display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div>
+                                            {{/if}}
+                                            {{#if element.audio}}
+                                                <audio controls class="au" >
+                                                    <source src="{{element.audio}}" type="audio/mp3">
+                                                </audio>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
@@ -64,6 +71,11 @@
                                             {{/if}}
                                             {{#if element.text}}
                                                 <div class="el-text" style="display: block; height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{element.text}}</div>
+                                            {{/if}}
+                                            {{#if element.audio}}
+                                                <audio controls class="au" >
+                                                    <source src="{{element.audio}}" type="audio/mp3">
+                                                </audio>
                                             {{/if}}
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>

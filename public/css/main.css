@@ -318,7 +318,8 @@ a:hover
 .au
 {
     width: 100%;
-    height: 70px;
+    height: 60px;
+    display: block;
 }
 li {
     list-style-type: none;
