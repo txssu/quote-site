@@ -7,3 +7,6 @@ nodejs site with express, handlebars and mongodb
 
 
 ### Also there is [vk bot](https://github.com/RedMaun/quote-bot) for this specific site
+
+
+[dark mode](https://userstyles.world/style/2433/quote-redmaun-site)
