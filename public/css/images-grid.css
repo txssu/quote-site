@@ -4,7 +4,8 @@
   font-size: 0;
 }
 .imgs-grid.imgs-grid-1 .imgs-grid-image {
-  width: 100%;
+  max-width: 100%;
+  max-height: 500px;
   text-align: left;
 }
 
@@ -56,9 +57,9 @@
   width: 100%;
 }
 .imgs-grid .imgs-grid-image .image-wrap img {
-  position: relative;
-  width: 100%;
-  height: auto;
+  /* position: relative; */
+  max-width: 100%;
+  max-height: 500px;
   margin: 0;
 }
 .imgs-grid .imgs-grid-image .view-all {

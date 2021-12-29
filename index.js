@@ -187,6 +187,10 @@ app.get('/robots.txt', function (req, res) {
   res.send("User-agent: *\nAllow: /");
 });
 
+app.get('/button', function (req, res) {
+  res.render('button');
+});
+
 app.use(function(req, res, next) {
   res.status(404);
 
