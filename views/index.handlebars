@@ -14,7 +14,6 @@
         <div id="textcont">СЬЛРЖАЛСЧ цитатник</div>
     </div>
     <div id="butt-cont"></div>
-    {{!-- <a href="create"><button id="add" ><span>+</span></button></a> --}}
     <a href="https://github.com/RedMaun/quote-site"><button id="github">
         <img src="https://raw.githubusercontent.com/gilbarbara/logos/master/logos/github-icon.svg">
     </button></a>
@@ -38,12 +37,6 @@
                     {{#if (isArray qu)}} 
                         {{#each qu}}
                             {{#if (isObject this)}}
-                                {{!-- {{#or (not (eq element.text '')) b (not (eq (length element.images) 0)) }} --}}
-                                {{!-- {{#if element.name}}
-                                    <div class="nname-cont" style="margin-left:{{gap}}px">
-                                {{else}}
-                                    <div class="nname-cont" style="padding: 0px;">
-                                {{/if}} --}}
                                 <div class="nname-cont" style="margin-left:{{gap}}px">  
                                         {{#if (eq gap 0)}}
                                             {{#if element.name}}
@@ -60,17 +53,6 @@
                                             {{#if element.images}}
                                                 <div class="gallery" style="margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div style="color: transparent">{{this}}</div>{{/each}}</div>
                                             {{/if}}
-                                        {{!-- {{else if (gt gap 29)}}
-                                            <details class="det" style="margin-left: {{gap}}px;" onclick="bebr(this, 0)">
-                                                <a class="nname" href="{{element.link}}" style="display: inline-block; color: #919191;">{{element.name}}</a>
-                                                {{#if element.text}}
-                                                    <div style="display: inline-block;height: auto; display: flex; white-space: pre-line"><div style="align-self: center;">{{element.text}}</div></div>
-                                                {{/if}}
-                                                {{#if element.images}}
-                                                    <div class="gallery" style=";margin-top: 5px;" id="{{_id}}">{{#each element.images}}<div>{{this}}</div>{{/each}}</div>
-                                                {{/if}}
-                                                <summary onclick="bebr(this, 1)">Спойлер</summary>
-                                            </details> --}}
                                         {{else}}
                                             {{#if element.name}}
                                                 <a class="nname" href="{{element.link}}" style="display: inline-block;">{{element.name}}</a>
@@ -88,7 +70,6 @@
                                             {{/if}}
                                         {{/if}}
                                     </div>
-                                {{!-- {{/or}} --}}
                             {{else}}
                                 <div class="nname-cont" style="padding-bottom: 0px;"><p class="el-text" style="display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;">{{this}}</p></div>
                             {{/if}}

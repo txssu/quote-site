@@ -117,23 +117,6 @@ $( document ).ready(function() {
                 element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="'+link+'">'+ three +'</a>')
                 bla(element)
             }
-            if (element.innerText.match(/(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/))
-            {
-                var temp = element.innerText.match(/(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/)
-                text_link = temp[2]
-                if (text_link.length > 50)
-                {
-                    text_link = text_link.substring(0, 47) + '...'
-                }
-                if (text_link.slice(-1) == '/')
-                {
-                    text_link = text_link.substring(0, text_link.length -1)
-                }
-                link = temp[0]
-                element.innerHTML = element.innerHTML.replaceAll(link, '<a href="'+link+'">'+ text_link +'</a>')
-                bla(element)
-            }
-
         } catch(e) {
             return false
         }
@@ -142,26 +125,7 @@ $( document ).ready(function() {
     {
         bla(c[x])
     }
-    var y = document.getElementsByClassName('nname-cont')
-    for (var x = 0; x < y.length; x++)
-    {
-        if (y[x].style.display == 'none')
-        {
-            y[x].parentNode.removeChild(y[x]);
-        }
-    }
-    // /(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/ - link mathcing
-    // /\[(id|club)([0-9]+)\|([^\]]+)\]/ - vkid matching
 });
-// function bebr(event, k)
-// {
-//     if (k == 0)
-//     {
-//         event.open = !event.open
-//     }
-//     else if (k == 1)
-//     {
-//         parent = event.parentElement
-//         parent.open = !parent.open
-//     }
-// }
+
+// /(https?:\/\/)(([^\s\/]+)+([^\s]+)?)/ - link mathcing
+// /\[(id|club)([0-9]+)\|([^\]]+)\]/ - vkid matching

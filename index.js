@@ -11,8 +11,6 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true })
 const helpers = require('handlebars-helpers')();
 const dotenv = require('dotenv');
 
-// const LIMIT = 15
-
 dotenv.config();
 
 app.engine('handlebars', exphbs());
@@ -138,57 +136,26 @@ app.get('/index/:id', async function(req, res) {
     }
 })
 
-// app.get('/create', function(req, res){
-//   res.render('form', {title: 'Добавить цитату'})
-// })
-
-// var previousHour = new Date().toLocaleTimeString('ru-RU', { hour12: false, hour: "numeric"})
-// var count = 0
-
-// app.post('/quote', urlencodedParser, async function(req, res) {
-//   var currentHour = new Date().toLocaleTimeString('ru-RU', { hour12: false, hour: "numeric"})
-//   if (previousHour == currentHour)
-//   {
-//     count += 1;
-//   }
-//   else
-//   {
-//     previousHour = currentHour;
-//     count = 0;
-//   }
-//   if (count <= LIMIT)
-//   {
-//     var today = new Date();
-//     var dd = String(today.getDate()).padStart(2, '0');
-//     var mm = String(today.getMonth() + 1).padStart(2, '0');
-//     var yyyy = today.getFullYear();
-//     var time = new Date().toLocaleTimeString('ru-RU', { hour12: false, 
-//         hour: "numeric", 
-//         minute: "numeric"});
-//     var fff = String(dd + '.' + mm + '.' + yyyy) + ' в ' + time;
-//     const quot = new quo({
-//         qu: req.body['quote'],
-//         au: req.body['auth'],
-//         da: fff,
-//         ip: (req.headers['x-forwarded-for']).split(',')[0]
-//     })
-//     await quot.save()
-//     res.redirect('/')
-//   }
-//   else
-//   {
-//     res.status(403);
-//     res.send('limit reached')
-//   }
-// })
+app.get('/pics/:id', (req, res) => {
+    id = req.params.id;
+    fs.readFile('./pics/' + id, function(err, data) {
+        if (err) throw err;
+        if (id.includes('.svg'))
+        {
+          res.writeHead(200, {'Content-Type': 'image/svg+xml '});
+          res.end(data); 
+        }
+        else
+        {
+          res.writeHead(200, {'Content-Type': 'image/png'});
+          res.end(data); 
+        }
+  });
+});
 
 app.get('/robots.txt', function (req, res) {
   res.type('text/plain');
   res.send("User-agent: *\nAllow: /");
-});
-
-app.get('/button', function (req, res) {
-  res.render('button');
 });
 
 app.use(function(req, res, next) {
@@ -198,13 +165,13 @@ app.use(function(req, res, next) {
     res.render('404', { url: req.get('host') + req.url });
     return;
   }
-})
+});
 
 async function start() {
     try {
       await mongoose.connect(
         process.env.TOKEN,
-	{
+	      {
           useNewUrlParser: true
         }
       )
@@ -214,4 +181,4 @@ async function start() {
     }
 }
   
-start()
+start();
