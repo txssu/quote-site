@@ -34,6 +34,7 @@ function quoteTitle(quote) {
     const a = createElem('a', ['id'])
     a.href = window.location.pathname + '/' + quote.id
     a.innerHTML = `#${quote.id}`
+    if (quote.id == 1) toggleAllLoaded()
 
     // Дата
     const date = createElem('div', ['date'])
@@ -149,7 +150,9 @@ function updateGalleries() {
 }
 
 renderQuotes(10, 0);
-var offset = 10;
+var offset = 530;
+var allLoaded = false;
+const toggleAllLoaded = () => { allLoaded = true }
 
 
 window.addEventListener('scroll', () => {
@@ -159,7 +162,7 @@ window.addEventListener('scroll', () => {
         clientHeight
     } = document.documentElement;
 
-    if (scrollTop + clientHeight >= scrollHeight - 30) {
+    if (scrollTop + clientHeight >= scrollHeight - 30 && !allLoaded) {
         renderQuotes(10, offset);;
         offset += 10;
         console.log("Load")
