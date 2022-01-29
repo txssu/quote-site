@@ -176,17 +176,14 @@ function loadById () {
   const id = window.location.pathname.split('/').at(-1)
 
   const host = window.location.protocol + '//' + window.location.host
-  const url = new URL(host + '/api/quote')
-
-  const params = { id: id }
-
-  url.search = new URLSearchParams(params).toString()
+  const url = new URL(host + '/api/quote/' + id)
 
   fetch(url)
     .then((response) => {
       return response.json()
     })
     .then((data) => {
+      console.log(data)
       document.getElementById('feed').appendChild(renderQuote(data))
       updateGalleries()
     })

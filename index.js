@@ -58,21 +58,21 @@ app.get('/api/quotes', async function (req, res) {
   res.end(JSON.stringify(list))
 })
 
-app.get('/api/quote', async function (req, res) {
-  const id = req.query.id || -1
+app.get('/api/quote/:id', async function (req, res) {
+  const id = req.params.id
 
   quoList = quoIterate(quoList)
 
   const quo = mongoose.model('freespeak')
 
   const list = (await quo.find()
-    .sort({ _id: -1 })
+    .sort({ _id: 1 })
     .lean())
     .map((elem) => { delete elem._id; return elem })
 
   const quote = Array.from(list)
 
-  const q = quote[0]
+  const q = quote[id]
 
   q.id = id
 
