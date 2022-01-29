@@ -62,6 +62,10 @@ function renderMessage (message) {
       const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
       text.innerHTML = message.text
       content.appendChild(text)
+    } if (typeof message.qu === 'string') {
+      const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
+      text.innerHTML = message.qu
+      content.appendChild(text)
     } if (message.audio) {
       content.appendChild(
         nestedElems([
@@ -127,6 +131,7 @@ async function renderQuotes (count, offset) {
     .then((data) => {
       const feed = document.getElementById('feed')
       data.forEach(quote => {
+        console.log(quote)
         feed.appendChild(renderQuote(quote))
       })
       updateGalleries()
