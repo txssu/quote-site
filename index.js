@@ -43,21 +43,26 @@ const options = {
 };
 
 app.get('/api/quotes', async function (req, res) {
-  let offset = req.query.offset || 0;
-  let count = req.query.count || 15;
+  const offset = req.query.offset || 0;
+  const count = req.query.count || 15;
 
   quo_list = quo_iterate(quo_list)
 
 
-  var quo = mongoose.model('freespeak')
-  var list = await quo.find()
+  const quo = mongoose.model('freespeak')
+
+  var lastID = await quo.count() - 1 - offset;
+
+  const list = (await quo.find()
     .sort({ "_id": -1 })
     .skip(offset)
     .limit(count)
-    .lean();
-  list.forEach(element => {
-    delete element._id
-  });
+    .lean())
+    .map((elem) => {delete elem._id; return elem})
+    .map((elem) => {elem.id = lastID--; return elem});
+
+  console.log(lastID)
+
 
   res.writeHead(200, { 'Content-Type': 'application/json ' })
   res.end(JSON.stringify(list))
