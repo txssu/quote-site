@@ -13,7 +13,7 @@ const dotenv = require('dotenv');
 
 function quo_iterate(glist)
 {
-  var quo_json = fs.readFileSync('chats.json');
+  var quo_json = fs.readFileSync('../quote-bot/chats.json');
   quo_json = JSON.parse(quo_json)
   var quo_list = [];
   for (var i = 0; i < quo_json.chats.length; i++)
