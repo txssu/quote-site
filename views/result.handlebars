@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="../public/js/images-grid.js"></script>
+    
     <link rel="stylesheet" href="../public/css/images-grid.css">
+    <link rel="stylesheet" href="../public/css/dark.css">
 </head>
 <body>
-    <a href="/">
+    <a id="back-link" href="/">
         <button id="back" type="submit">Назад</button>
     </a>
     <div id="feed">
@@ -17,7 +19,7 @@
         {{#each list}}
         <div class="cont">
             <div class="title-row">
-                <a class="id" href="/index/{{@root.title}}">#{{@root.title}}</a>
+                <a class="id" href="/{{@root.chat}}/{{@root.title}}">#{{@root.title}}</a>
                 <div class="date">{{da}}</div>
             </div>
             <div class="content">
@@ -94,5 +96,12 @@
         {{/each}}
     </div>
     <script src="../public/js/main.js"></script>
+    <script>
+        var url = window.location.href
+        var arr = url.split('/');
+        arr.pop();
+        url = arr.join('/');
+        document.getElementById("back-link").href = url;    
+    </script>
 </body>
 </html>

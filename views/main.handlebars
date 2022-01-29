@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public/css/dark.css">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+</head>
+<body>
+    <div id="fas" style="margin-top: 40px;">
+        <p style="text-align: center; font-size: 2.5em">СЬЛРЖАЛСЧ</p>
+        <p style="text-align: center; margin-bottom: 40px; font-size: 1em">цитатник</p>
+    </div>
+    <div style="margin: auto; width: 240px; heigth: auto; background: #1e1e1e; border: 1px solid #4a4a4a;padding: 15px; border-radius: 10px;">
+        <p style="text-align: center;  margin-bottom: 15px; font-size: 20px;" >Каналы:</p>
+        <ul style="max-width: 200px; margin:auto;">
+        {{#each chats}}
+            <li style="display: flex; margin-bottom: 10px; font-size: 16px;"><a href="/{{name}}">/{{name}}/</a>: {{count}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+</body>
+</html>
