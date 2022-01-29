@@ -9,7 +9,7 @@ const { Schema } = require('mongoose')
 const dotenv = require('dotenv')
 
 function quoIterate (glist) {
-  let quoJSON = fs.readFileSync('../quote-bot/chats.json')
+  let quoJSON = fs.readFileSync('../../quote-bot/chats.json')
   quoJSON = JSON.parse(quoJSON)
   const quoList = []
   for (let i = 0; i < quoJSON.chats.length; i++) {
@@ -36,26 +36,28 @@ const options = {
   cert: fs.readFileSync('ssl/cert.pem')
 }
 
-app.get('/api/quotes', async function (req, res) {
+app.get('/api/quotes/:id', async function (req, res) {
   const offset = req.query.offset || 0
   const count = req.query.count || 15
-
+  const chat  = String(req.params.id)
   quoList = quoIterate(quoList)
 
-  const quo = mongoose.model('freespeak')
+  if (quoList.includes(chat))
+  {
+    const quo = mongoose.model(chat)
+    let lastID = await quo.count() - 1 - offset
 
-  let lastID = await quo.count() - 1 - offset
+    const list = (await quo.find()
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(count)
+      .lean())
+      .map((elem) => { delete elem._id; return elem })
+      .map((elem) => { elem.id = lastID--; return elem })
 
-  const list = (await quo.find()
-    .sort({ _id: -1 })
-    .skip(offset)
-    .limit(count)
-    .lean())
-    .map((elem) => { delete elem._id; return elem })
-    .map((elem) => { elem.id = lastID--; return elem })
-
-  res.writeHead(200, { 'Content-Type': 'application/json ' })
-  res.end(JSON.stringify(list))
+    res.writeHead(200, { 'Content-Type': 'application/json ' })
+    res.end(JSON.stringify(list))
+  }
 })
 
 app.get('/api/quote/:id', async function (req, res) {

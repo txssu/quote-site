@@ -116,9 +116,9 @@ function renderQuote (quote) {
   return result
 }
 
-async function renderQuotes (count, offset) {
+async function renderQuotes (count, offset, chat) {
   const host = window.location.protocol + '//' + window.location.host
-  const url = new URL(host + '/api/quotes')
+  const url = new URL(host + '/api/quotes/' + chat)
 
   const params = { count: count, offset: offset }
 
@@ -131,7 +131,6 @@ async function renderQuotes (count, offset) {
     .then((data) => {
       const feed = document.getElementById('feed')
       data.forEach(quote => {
-        console.log(quote)
         feed.appendChild(renderQuote(quote))
       })
       updateGalleries()
@@ -152,8 +151,8 @@ function updateGalleries () {
 let allLoaded = false
 const toggleAllLoaded = () => { allLoaded = true }
 
-function loadFeed () {
-  renderQuotes(10, 0)
+function loadFeed (chat) {
+  renderQuotes(10, 0, chat)
   let offset = 10
 
   window.addEventListener('scroll', () => {
@@ -164,7 +163,7 @@ function loadFeed () {
     } = document.documentElement
 
     if (scrollTop + clientHeight >= scrollHeight - 30 && !allLoaded) {
-      renderQuotes(10, offset)
+      renderQuotes(10, offset, chat)
       offset += 10
     }
   }, {
@@ -183,7 +182,6 @@ function loadById () {
       return response.json()
     })
     .then((data) => {
-      console.log(data)
       document.getElementById('feed').appendChild(renderQuote(data))
       updateGalleries()
     })
