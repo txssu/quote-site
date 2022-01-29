@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="../public/js/images-grid.js"></script>
-    
+
     <link rel="stylesheet" href="../public/css/images-grid.css">
     <link rel="stylesheet" href="../public/css/dark.css">
 </head>
@@ -14,7 +14,9 @@
     <a id="back-link" href="/">
         <button id="back" type="submit">Назад</button>
     </a>
-    <div id="feed"></div>
+    <div id="feed">
+        <div id="space"></div>
+    </div>
     <script src="../public/js/main.js"></script>
     <script>
         var url = window.location.href
@@ -23,5 +25,7 @@
         url = arr.join('/');
         document.getElementById("back-link").href = url;    
     </script>
+
+    <script src="../public/js/quotes.js" onload="loadById()"></script>
 </body>
 </html>

@@ -65,6 +65,28 @@ app.get('/api/quotes', async function (req, res) {
   res.end(JSON.stringify(list))
 })
 
+app.get('/api/quote', async function (req, res) {
+  const id = req.query.id || -1;
+
+  quo_list = quo_iterate(quo_list)
+
+  const quo = mongoose.model('freespeak')
+
+  const list = (await quo.find()
+    .sort({ "_id": -1 })
+    .lean())
+    .map((elem) => {delete elem._id; return elem});
+
+  const quote = Array.from(list)
+
+  let q = quote[0]
+
+  q['id'] = id
+
+  res.writeHead(200, { 'Content-Type': 'application/json ' })
+  res.end(JSON.stringify(q))
+})
+
 app.get('/', async function(req, res) {
 
   quo_list = quo_iterate(quo_list);
@@ -133,7 +155,7 @@ app.get('/:name/:id', async function(req, res) {
       var list = await quo.find({}).lean();
       if (list[g])
       {
-        res.render('result', {title:g, chat:name, list: [list[g]]}) 
+        res.render('result', {title: g}) 
       }
       else
       {

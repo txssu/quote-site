@@ -149,24 +149,47 @@ function updateGalleries() {
         })
 }
 
-renderQuotes(10, 0);
-var offset = 530;
 var allLoaded = false;
 const toggleAllLoaded = () => { allLoaded = true }
 
+function loadFeed() {
+    renderQuotes(10, 0);
+    var offset = 10;
 
-window.addEventListener('scroll', () => {
-    const {
-        scrollTop,
-        scrollHeight,
-        clientHeight
-    } = document.documentElement;
+    window.addEventListener('scroll', () => {
+        const {
+            scrollTop,
+            scrollHeight,
+            clientHeight
+        } = document.documentElement;
 
-    if (scrollTop + clientHeight >= scrollHeight - 30 && !allLoaded) {
-        renderQuotes(10, offset);;
-        offset += 10;
-        console.log("Load")
-    }
-}, {
-    passive: true
-});
+        if (scrollTop + clientHeight >= scrollHeight - 30 && !allLoaded) {
+            renderQuotes(10, offset);;
+            offset += 10;
+            console.log("Load")
+        }
+    }, {
+        passive: true
+    });
+}
+
+function loadById() {
+    const id = window.location.pathname.split('/').at(-1)
+
+    const host = window.location.protocol + '//' + window.location.host
+    const url = new URL(host + '/api/quote')
+
+    const params = { 'id': id }
+
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data)
+            feed.appendChild(renderQuote(data))
+            updateGalleries()
+        });
+}
