@@ -1,1 +1,4 @@
 pics/*
+node_modules
+ssl
+.env
