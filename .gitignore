@@ -2,3 +2,4 @@ pics/*
 node_modules
 ssl
 .env
+public/banners

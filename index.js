@@ -9,7 +9,7 @@ const { Schema } = require('mongoose')
 const dotenv = require('dotenv')
 
 function quoIterate (glist) {
-  let quoJSON = fs.readFileSync('../../quote-bot/chats.json')
+  let quoJSON = fs.readFileSync('../quote-bot/chats.json')
   quoJSON = JSON.parse(quoJSON)
   const quoList = []
   for (let i = 0; i < quoJSON.chats.length; i++) {

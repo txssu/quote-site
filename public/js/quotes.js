@@ -53,7 +53,7 @@ function renderMessage (message) {
     const messages = message.map(renderMessage)
     content = createElem('div', ['nested-nname-cont'], messages)
   } else {
-    content = createElem('div', ['nname-cont'], [])
+    content = createElem('div', ['nname-cont'], [], {style: 'margin-bottom: 20px'})
     if (message.name) {
       const name = createElem('a', ['nname'], [], { style: 'display: inline-block;' })
       name.innerHTML = message.name
@@ -112,7 +112,6 @@ function renderQuote (quote) {
       quoteContent(quote),
       quoteBottom(quote)
     ])
-
   return result
 }
 
@@ -132,20 +131,127 @@ async function renderQuotes (count, offset, chat) {
       const feed = document.getElementById('feed')
       data.forEach(quote => {
         feed.appendChild(renderQuote(quote))
+        updateText()
       })
       updateGalleries()
+      updateText()
     })
+  
 }
 
 function updateGalleries () {
   [...document.getElementsByClassName('gallery')]
     .forEach((gallery) => {
-      const images = gallery.getAttribute('data-images').split()
+      const images = gallery.getAttribute('data-images').split(',')
       $(gallery).imagesGrid({
         images: images,
         align: false
       })
     })
+}
+
+function updateText () {
+  var _b = document.getElementsByClassName('nname-cont')
+  var b = []
+  for (var i = 0; i < _b.length; i++)
+  {
+    if (_b[i].style.display != 'none')
+    {
+      b.push(_b[i])
+    }
+  }
+  console.log(b)
+  for (var x = 0; x < b.length; x++)
+  {
+      for (var y = x + 1; y < b.length; y++)
+      {
+          if(b[x].parentElement.className == b[y].parentElement.className && b[x].parentElement == b[y].parentElement)
+          {
+              if (b[x].firstElementChild && b[y].firstElementChild)
+              {
+                  var name1 = b[x].firstElementChild.innerText
+                  var name2 = b[y].firstElementChild.innerText
+              }
+              if (name1 == name2)
+              {
+                  var temp = document.createElement('div');
+                  temp.className = 'el-text';
+                  temp.style = "white-space: pre-line;"
+                  if (b[y].getElementsByClassName('el-text')[0] != undefined)
+                  {
+                      for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++)
+                      {
+                          temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText;
+                      }
+                  }
+                  b[x].appendChild(temp);
+                  if (b[y].getElementsByClassName('gallery')[0] != undefined)
+                  {
+                      for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++)
+                      {
+                          b[x].appendChild(b[y].getElementsByClassName('gallery')[i]);
+                      }
+                  }
+                  b[y].style.display = "none";
+              }
+          }
+          else
+          {
+            x = y
+          }
+          
+      }
+  }
+  
+  var c = document.getElementsByClassName('el-text')
+  function matcher(element)
+  {
+      try
+      {
+          if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/))
+          {
+              var temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
+              var one = temp[1]
+              var two = temp[2]
+              var three = temp[3]
+              var link = 'https://vk.com/' + one + two
+              element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="'+link+'">'+ three +'</a>')
+              bla(element)
+          }
+      } catch(e) {
+          return false
+      }
+  }
+  for (var x = 0; x < c.length; x++)
+  {
+    matcher(c[x])
+  }
+  
+  var h = document.getElementsByClassName('nested-nname-cont')
+  h = [].slice.call(h)
+  var c = document.getElementsByClassName('nname-cont')
+  c = [].slice.call(c)
+  for (var i = 0; i < h.length; i++)
+  {
+    for (var j = i + 1; j < h.length; j++)
+    {
+      var index_one = c.indexOf(h[i].lastElementChild)
+      var index_two = c.indexOf(h[j].firstChild)
+      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1)
+      {
+          var temp = h[j].getElementsByClassName('nname-cont')
+          for (var ii = 0; ii < temp.length; ii++)
+          {
+            h[i].appendChild(temp[ii])
+          }
+          console.log(h[i], h[j])
+      }
+      else
+      {
+        i = j
+      }
+    }
+  }
 }
 
 let allLoaded = false
@@ -184,5 +290,6 @@ function loadById () {
     .then((data) => {
       document.getElementById('feed').appendChild(renderQuote(data))
       updateGalleries()
+      updateText()
     })
 }
