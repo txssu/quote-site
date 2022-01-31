@@ -32,8 +32,7 @@ function createElem (tag, classes = [], children = [], attrs = {}) {
 
 function quoteTitle (quote) {
   // Ссылка
-  const a = createElem('a', ['id'])
-  a.href = window.location.pathname + '/' + quote.id
+  const a = createElem('a', ['id'], [], { href: window.location.pathname + '/' + quote.id })
   a.innerHTML = `#${quote.id}`
   if (quote.id === 1) toggleAllLoaded()
 
@@ -47,24 +46,43 @@ function quoteTitle (quote) {
   return title
 }
 
+function joinPhrasesWithSameAuthor (phrases) {
+  return phrases.reduce((result, current) => {
+    if (current.name && result.at(-1)?.name === current.name) {
+      const last = result.at(-1)
+      last.text += '\n' + current.text
+      return result
+    } else {
+      result.push(current)
+      return result
+    }
+  }, [])
+}
+
+function preprocessQuoteText (text) {
+  const pattern = /\[(id|club)([0-9]+)\|([^\]]+)\]/
+
+  return text.replace(pattern, (_, mentionType, id, mentionText) => {
+    const link = createElem('a', [], [], { href: `https://vk.com/${mentionType + id}` })
+    link.innerHTML = mentionText
+    return link.outerHTML
+  })
+}
+
 function renderMessage (message) {
   let content
   if (Array.isArray(message)) {
     const messages = message.map(renderMessage)
     content = createElem('div', ['nested-nname-cont'], messages)
   } else {
-    content = createElem('div', ['nname-cont'], [], {style: 'margin-bottom: 20px'})
+    content = createElem('div', ['nname-cont'], [], { style: 'margin-bottom: 20px' })
     if (message.name) {
-      const name = createElem('a', ['nname'], [], { style: 'display: inline-block;' })
+      const name = createElem('a', ['nname'], [], { style: 'display: inline-block;', href: message.link })
       name.innerHTML = message.name
       content.appendChild(name)
-    } if (message.text) {
+    } if (message.text || typeof message.qu === 'string') {
       const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
-      text.innerHTML = message.text
-      content.appendChild(text)
-    } if (typeof message.qu === 'string') {
-      const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
-      text.innerHTML = message.qu
+      text.innerHTML = preprocessQuoteText(message.text || message.qu)
       content.appendChild(text)
     } if (message.audio) {
       content.appendChild(
@@ -87,14 +105,18 @@ function renderMessage (message) {
 }
 
 function quoteContent (quote) {
-  if (Array.isArray(quote.qu)) { return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message))) } else { return createElem('div', ['content'], [renderMessage(quote)]) }
+  if (Array.isArray(quote.qu)) {
+    quote.qu = joinPhrasesWithSameAuthor(quote.qu)
+    return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message)))
+  } else {
+    return createElem('div', ['content'], [renderMessage(quote)])
+  }
 }
 
 function quoteBottom (quote) {
   let author
   if (quote.link) {
-    author = createElem('a', ['author'])
-    author.href = quote.link
+    author = createElem('a', ['author'], [], { href: quote.link })
   } else {
     author = createElem('div', ['author'])
   }
@@ -131,21 +153,20 @@ async function renderQuotes (count, offset, chat) {
       const feed = document.getElementById('feed')
       data.forEach(quote => {
         feed.appendChild(renderQuote(quote))
-        updateText()
       })
       updateGalleries()
       updateText()
     })
-    async function bounce() {
-      await sleep(1000);
-      lever(chat, offset + 10)
-    }
-    
-    bounce();
+  async function bounce () {
+    await sleep(1000)
+    lever(chat, offset + 10)
+  }
+
+  bounce()
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 function updateGalleries () {
@@ -160,101 +181,20 @@ function updateGalleries () {
 }
 
 function updateText () {
-  var _b = document.getElementsByClassName('nname-cont')
-  var b = []
-  for (var i = 0; i < _b.length; i++)
-  {
-    if (_b[i].style.display != 'none')
-    {
-      b.push(_b[i])
-    }
-  }
-  for (var x = 0; x < b.length; x++)
-  {
-      for (var y = x + 1; y < b.length; y++)
-      {
-          if(b[x].parentElement.className == b[y].parentElement.className && b[x].parentElement == b[y].parentElement)
-          {
-              if (b[x].firstElementChild && b[y].firstElementChild)
-              {
-                  var name1 = b[x].firstElementChild.innerText
-                  var name2 = b[y].firstElementChild.innerText
-              }
-              if (name1 == name2)
-              {
-                  var temp = document.createElement('div');
-                  temp.className = 'el-text';
-                  temp.style = "white-space: pre-line;"
-                  if (b[y].getElementsByClassName('el-text')[0] != undefined)
-                  {
-                      for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++)
-                      {
-                          temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText;
-                      }
-                  }
-                  b[x].appendChild(temp);
-                  if (b[y].getElementsByClassName('gallery')[0] != undefined)
-                  {
-                      for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++)
-                      {
-                          b[x].appendChild(b[y].getElementsByClassName('gallery')[i]);
-                      }
-                  }
-                  b[y].style.display = "none";
-              }
-          }
-          else
-          {
-            x = y
-          }
-          
-      }
-  }
-  
-  var c = document.getElementsByClassName('el-text')
-  function matcher(element)
-  {
-      try
-      {
-          if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/))
-          {
-              var temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
-              var one = temp[1]
-              var two = temp[2]
-              var three = temp[3]
-              var link = 'https://vk.com/' + one + two
-              element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="'+link+'">'+ three +'</a>')
-              bla(element)
-          }
-      } catch(e) {
-          return false
-      }
-  }
-  for (var x = 0; x < c.length; x++)
-  {
-    matcher(c[x])
-  }
-  
-  var h = document.getElementsByClassName('nested-nname-cont')
+  let h = document.getElementsByClassName('nested-nname-cont')
   h = [].slice.call(h)
-  var c = document.getElementsByClassName('nname-cont')
+  let c = document.getElementsByClassName('nname-cont')
   c = [].slice.call(c)
-  for (var i = 0; i < h.length; i++)
-  {
-    for (var j = i + 1; j < h.length; j++)
-    {
-      var index_one = c.indexOf(h[i].lastElementChild)
-      var index_two = c.indexOf(h[j].firstChild)
-      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1)
-      {
-          var temp = h[j].getElementsByClassName('nname-cont')
-          for (var ii = 0; ii < temp.length; ii++)
-          {
-            h[i].appendChild(temp[ii])
-          }
-      }
-      else
-      {
+  for (var i = 0; i < h.length; i++) {
+    for (let j = i + 1; j < h.length; j++) {
+      const index_one = c.indexOf(h[i].lastElementChild)
+      const index_two = c.indexOf(h[j].firstChild)
+      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1) {
+        var temp = h[j].getElementsByClassName('nname-cont')
+        for (let ii = 0; ii < temp.length; ii++) {
+          h[i].appendChild(temp[ii])
+        }
+      } else {
         i = j
       }
     }
@@ -264,27 +204,24 @@ function updateText () {
 let allLoaded = false
 const toggleAllLoaded = () => { allLoaded = true }
 
-function lever(chat, offset) {
-  $(window).scroll(function() {
+function lever (chat, offset) {
+  $(window).scroll(function () {
     const {
       scrollTop,
       scrollHeight,
       clientHeight
     } = document.documentElement
-    var percent = scrollTop/(scrollHeight - clientHeight)
-    console.log(percent)
-    if(percent >= 0.95 && !allLoaded) {
-        $(window).unbind('scroll');
-        renderQuotes(10, offset, chat)
+    const percent = scrollTop / (scrollHeight - clientHeight)
+    if (percent >= 0.95 && !allLoaded) {
+      $(window).unbind('scroll')
+      renderQuotes(10, offset, chat)
     }
-  });
+  })
 }
 
 function loadFeed (chat) {
   renderQuotes(10, 0, chat)
 }
-
-
 
 function loadById () {
   const id = window.location.pathname
