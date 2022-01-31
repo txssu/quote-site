@@ -46,11 +46,25 @@ function quoteTitle (quote) {
   return title
 }
 
-function preprocessQuoteText(text) {
+function joinPhrasesWithSameAuthor (phrases) {
+  return phrases.reduce((result, current) => {
+    console.log(current.name, result.at(-1)?.name)
+    if (current.name && result.at(-1)?.name === current.name) {
+      const last = result.at(-1)
+      last.text += '\n' + current.text
+      return result
+    } else {
+      result.push(current)
+      return result
+    }
+  }, [])
+}
+
+function preprocessQuoteText (text) {
   const pattern = /\[(id|club)([0-9]+)\|([^\]]+)\]/
 
   return text.replace(pattern, (_, mentionType, id, mentionText) => {
-    const link = createElem('a', [], [], {'href': `https://vk.com/${mentionType + id}`})
+    const link = createElem('a', [], [], { href: `https://vk.com/${mentionType + id}` })
     link.innerHTML = mentionText
     return link.outerHTML
   })
@@ -93,6 +107,7 @@ function renderMessage (message) {
 
 function quoteContent (quote) {
   if (Array.isArray(quote.qu)) {
+    quote.qu = joinPhrasesWithSameAuthor(quote.qu)
     return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message)))
   } else {
     return createElem('div', ['content'], [renderMessage(quote)])
@@ -167,46 +182,9 @@ function updateGalleries () {
 }
 
 function updateText () {
-  const _b = document.getElementsByClassName('nname-cont')
-  const b = []
-  for (var i = 0; i < _b.length; i++) {
-    if (_b[i].style.display != 'none') {
-      b.push(_b[i])
-    }
-  }
-  for (var x = 0; x < b.length; x++) {
-    for (let y = x + 1; y < b.length; y++) {
-      if (b[x].parentElement.className == b[y].parentElement.className && b[x].parentElement == b[y].parentElement) {
-        if (b[x].firstElementChild && b[y].firstElementChild) {
-          var name1 = b[x].firstElementChild.innerText
-          var name2 = b[y].firstElementChild.innerText
-        }
-        if (name1 == name2) {
-          var temp = document.createElement('div')
-          temp.className = 'el-text'
-          temp.style = 'white-space: pre-line;'
-          if (b[y].getElementsByClassName('el-text')[0] != undefined) {
-            for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++) {
-              temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText
-            }
-          }
-          b[x].appendChild(temp)
-          if (b[y].getElementsByClassName('gallery')[0] != undefined) {
-            for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++) {
-              b[x].appendChild(b[y].getElementsByClassName('gallery')[i])
-            }
-          }
-          b[y].style.display = 'none'
-        }
-      } else {
-        x = y
-      }
-    }
-  }
-
   let h = document.getElementsByClassName('nested-nname-cont')
   h = [].slice.call(h)
-  var c = document.getElementsByClassName('nname-cont')
+  let c = document.getElementsByClassName('nname-cont')
   c = [].slice.call(c)
   for (var i = 0; i < h.length; i++) {
     for (let j = i + 1; j < h.length; j++) {
