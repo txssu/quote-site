@@ -8,7 +8,9 @@ const path = require('path')
 const { Schema } = require('mongoose')
 const dotenv = require('dotenv')
 
-const mode = process.env.mode | 'prod'
+dotenv.config()
+
+const mode = process.env.MODE || 'prod'
 
 function quoIterate (glist) {
   const chatsPath = mode === 'dev' ? 'chats.json' : '../quote-bot/chats.json'
@@ -26,8 +28,6 @@ function quoIterate (glist) {
   return quoList
 }
 let quoList = quoIterate([])
-
-dotenv.config()
 
 app.engine('handlebars', exphbs())
 app.set('view engine', 'handlebars')

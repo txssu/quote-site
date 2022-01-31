@@ -32,8 +32,7 @@ function createElem (tag, classes = [], children = [], attrs = {}) {
 
 function quoteTitle (quote) {
   // Ссылка
-  const a = createElem('a', ['id'])
-  a.href = window.location.pathname + '/' + quote.id
+  const a = createElem('a', ['id'], [], { href: window.location.pathname + '/' + quote.id })
   a.innerHTML = `#${quote.id}`
   if (quote.id === 1) toggleAllLoaded()
 
@@ -55,7 +54,7 @@ function renderMessage (message) {
   } else {
     content = createElem('div', ['nname-cont'], [], { style: 'margin-bottom: 20px' })
     if (message.name) {
-      const name = createElem('a', ['nname'], [], { style: 'display: inline-block;' })
+      const name = createElem('a', ['nname'], [], { style: 'display: inline-block;', href: message.link })
       name.innerHTML = message.name
       content.appendChild(name)
     } if (message.text) {
@@ -97,8 +96,7 @@ function quoteContent (quote) {
 function quoteBottom (quote) {
   let author
   if (quote.link) {
-    author = createElem('a', ['author'])
-    author.href = quote.link
+    author = createElem('a', ['author'], [], { href: quote.link })
   } else {
     author = createElem('div', ['author'])
   }
