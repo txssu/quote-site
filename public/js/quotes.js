@@ -46,6 +46,16 @@ function quoteTitle (quote) {
   return title
 }
 
+function preprocessQuoteText(text) {
+  const pattern = /\[(id|club)([0-9]+)\|([^\]]+)\]/
+
+  return text.replace(pattern, (_, mentionType, id, mentionText) => {
+    const link = createElem('a', [], [], {'href': `https://vk.com/${mentionType + id}`})
+    link.innerHTML = mentionText
+    return link.outerHTML
+  })
+}
+
 function renderMessage (message) {
   let content
   if (Array.isArray(message)) {
@@ -57,13 +67,9 @@ function renderMessage (message) {
       const name = createElem('a', ['nname'], [], { style: 'display: inline-block;', href: message.link })
       name.innerHTML = message.name
       content.appendChild(name)
-    } if (message.text) {
+    } if (message.text || typeof message.qu === 'string') {
       const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
-      text.innerHTML = message.text
-      content.appendChild(text)
-    } if (typeof message.qu === 'string') {
-      const text = createElem('div', ['el-text'], [], { style: 'display: inline-block;height: auto; display: block; white-space: pre-line; font-size: 16px !important;' })
-      text.innerHTML = message.qu
+      text.innerHTML = preprocessQuoteText(message.text || message.qu)
       content.appendChild(text)
     } if (message.audio) {
       content.appendChild(
@@ -133,7 +139,6 @@ async function renderQuotes (count, offset, chat) {
       const feed = document.getElementById('feed')
       data.forEach(quote => {
         feed.appendChild(renderQuote(quote))
-        updateText()
       })
       updateGalleries()
       updateText()
@@ -197,26 +202,6 @@ function updateText () {
         x = y
       }
     }
-  }
-
-  var c = document.getElementsByClassName('el-text')
-  function matcher (element) {
-    try {
-      if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)) {
-        const temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
-        const one = temp[1]
-        const two = temp[2]
-        const three = temp[3]
-        const link = 'https://vk.com/' + one + two
-        element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="' + link + '">' + three + '</a>')
-        bla(element)
-      }
-    } catch (e) {
-      return false
-    }
-  }
-  for (var x = 0; x < c.length; x++) {
-    matcher(c[x])
   }
 
   let h = document.getElementsByClassName('nested-nname-cont')
