@@ -39,11 +39,10 @@ const options = {
 app.get('/api/quotes/:id', async function (req, res) {
   const offset = req.query.offset || 0
   const count = req.query.count || 15
-  const chat  = String(req.params.id)
+  const chat = String(req.params.id)
   quoList = quoIterate(quoList)
 
-  if (quoList.includes(chat))
-  {
+  if (quoList.includes(chat)) {
     const quo = mongoose.model(chat)
     let lastID = await quo.count() - 1 - offset
 
@@ -65,8 +64,7 @@ app.get('/api/quote/:chat/:id', async function (req, res) {
   const chat = req.params.chat
 
   quoList = quoIterate(quoList)
-  if (quoList.includes(chat))
-  {
+  if (quoList.includes(chat)) {
     const quo = mongoose.model(chat)
 
     const list = (await quo.find()
@@ -141,7 +139,7 @@ app.get('/:name/:id', async function (req, res) {
 
     const list = await quo.find({}).lean()
     if (list[g]) {
-      res.render('result', { title: name + '/' + String(g)})
+      res.render('result', { title: name + '/' + String(g) })
     } else {
       res.status(404)
       if (req.accepts('html')) {

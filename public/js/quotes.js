@@ -53,7 +53,7 @@ function renderMessage (message) {
     const messages = message.map(renderMessage)
     content = createElem('div', ['nested-nname-cont'], messages)
   } else {
-    content = createElem('div', ['nname-cont'], [], {style: 'margin-bottom: 20px'})
+    content = createElem('div', ['nname-cont'], [], { style: 'margin-bottom: 20px' })
     if (message.name) {
       const name = createElem('a', ['nname'], [], { style: 'display: inline-block;' })
       name.innerHTML = message.name
@@ -87,7 +87,11 @@ function renderMessage (message) {
 }
 
 function quoteContent (quote) {
-  if (Array.isArray(quote.qu)) { return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message))) } else { return createElem('div', ['content'], [renderMessage(quote)]) }
+  if (Array.isArray(quote.qu)) {
+    return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message)))
+  } else {
+    return createElem('div', ['content'], [renderMessage(quote)])
+  }
 }
 
 function quoteBottom (quote) {
@@ -136,16 +140,16 @@ async function renderQuotes (count, offset, chat) {
       updateGalleries()
       updateText()
     })
-    async function bounce() {
-      await sleep(1000);
-      lever(chat, offset + 10)
-    }
-    
-    bounce();
+  async function bounce () {
+    await sleep(1000)
+    lever(chat, offset + 10)
+  }
+
+  bounce()
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 function updateGalleries () {
@@ -160,101 +164,77 @@ function updateGalleries () {
 }
 
 function updateText () {
-  var _b = document.getElementsByClassName('nname-cont')
-  var b = []
-  for (var i = 0; i < _b.length; i++)
-  {
-    if (_b[i].style.display != 'none')
-    {
+  const _b = document.getElementsByClassName('nname-cont')
+  const b = []
+  for (var i = 0; i < _b.length; i++) {
+    if (_b[i].style.display != 'none') {
       b.push(_b[i])
     }
   }
-  for (var x = 0; x < b.length; x++)
-  {
-      for (var y = x + 1; y < b.length; y++)
-      {
-          if(b[x].parentElement.className == b[y].parentElement.className && b[x].parentElement == b[y].parentElement)
-          {
-              if (b[x].firstElementChild && b[y].firstElementChild)
-              {
-                  var name1 = b[x].firstElementChild.innerText
-                  var name2 = b[y].firstElementChild.innerText
-              }
-              if (name1 == name2)
-              {
-                  var temp = document.createElement('div');
-                  temp.className = 'el-text';
-                  temp.style = "white-space: pre-line;"
-                  if (b[y].getElementsByClassName('el-text')[0] != undefined)
-                  {
-                      for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++)
-                      {
-                          temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText;
-                      }
-                  }
-                  b[x].appendChild(temp);
-                  if (b[y].getElementsByClassName('gallery')[0] != undefined)
-                  {
-                      for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++)
-                      {
-                          b[x].appendChild(b[y].getElementsByClassName('gallery')[i]);
-                      }
-                  }
-                  b[y].style.display = "none";
-              }
+  for (var x = 0; x < b.length; x++) {
+    for (let y = x + 1; y < b.length; y++) {
+      if (b[x].parentElement.className == b[y].parentElement.className && b[x].parentElement == b[y].parentElement) {
+        if (b[x].firstElementChild && b[y].firstElementChild) {
+          var name1 = b[x].firstElementChild.innerText
+          var name2 = b[y].firstElementChild.innerText
+        }
+        if (name1 == name2) {
+          var temp = document.createElement('div')
+          temp.className = 'el-text'
+          temp.style = 'white-space: pre-line;'
+          if (b[y].getElementsByClassName('el-text')[0] != undefined) {
+            for (var i = 0; i < b[y].getElementsByClassName('el-text').length; i++) {
+              temp.innerText = temp.innerText + b[y].getElementsByClassName('el-text')[i].innerText
+            }
           }
-          else
-          {
-            x = y
+          b[x].appendChild(temp)
+          if (b[y].getElementsByClassName('gallery')[0] != undefined) {
+            for (var i = 0; i < b[y].getElementsByClassName('gallery').length; i++) {
+              b[x].appendChild(b[y].getElementsByClassName('gallery')[i])
+            }
           }
-          
+          b[y].style.display = 'none'
+        }
+      } else {
+        x = y
       }
+    }
   }
-  
+
   var c = document.getElementsByClassName('el-text')
-  function matcher(element)
-  {
-      try
-      {
-          if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/))
-          {
-              var temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
-              var one = temp[1]
-              var two = temp[2]
-              var three = temp[3]
-              var link = 'https://vk.com/' + one + two
-              element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="'+link+'">'+ three +'</a>')
-              bla(element)
-          }
-      } catch(e) {
-          return false
+  function matcher (element) {
+    try {
+      if (element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)) {
+        const temp = element.innerText.match(/\[(id|club)([0-9]+)\|([^\]]+)\]/)
+        const one = temp[1]
+        const two = temp[2]
+        const three = temp[3]
+        const link = 'https://vk.com/' + one + two
+        element.innerHTML = element.innerHTML.replaceAll(temp[0], '<a href="' + link + '">' + three + '</a>')
+        bla(element)
       }
+    } catch (e) {
+      return false
+    }
   }
-  for (var x = 0; x < c.length; x++)
-  {
+  for (var x = 0; x < c.length; x++) {
     matcher(c[x])
   }
-  
-  var h = document.getElementsByClassName('nested-nname-cont')
+
+  let h = document.getElementsByClassName('nested-nname-cont')
   h = [].slice.call(h)
   var c = document.getElementsByClassName('nname-cont')
   c = [].slice.call(c)
-  for (var i = 0; i < h.length; i++)
-  {
-    for (var j = i + 1; j < h.length; j++)
-    {
-      var index_one = c.indexOf(h[i].lastElementChild)
-      var index_two = c.indexOf(h[j].firstChild)
-      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1)
-      {
-          var temp = h[j].getElementsByClassName('nname-cont')
-          for (var ii = 0; ii < temp.length; ii++)
-          {
-            h[i].appendChild(temp[ii])
-          }
-      }
-      else
-      {
+  for (var i = 0; i < h.length; i++) {
+    for (let j = i + 1; j < h.length; j++) {
+      const index_one = c.indexOf(h[i].lastElementChild)
+      const index_two = c.indexOf(h[j].firstChild)
+      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1) {
+        var temp = h[j].getElementsByClassName('nname-cont')
+        for (let ii = 0; ii < temp.length; ii++) {
+          h[i].appendChild(temp[ii])
+        }
+      } else {
         i = j
       }
     }
@@ -264,27 +244,25 @@ function updateText () {
 let allLoaded = false
 const toggleAllLoaded = () => { allLoaded = true }
 
-function lever(chat, offset) {
-  $(window).scroll(function() {
+function lever (chat, offset) {
+  $(window).scroll(function () {
     const {
       scrollTop,
       scrollHeight,
       clientHeight
     } = document.documentElement
-    var percent = scrollTop/(scrollHeight - clientHeight)
+    const percent = scrollTop / (scrollHeight - clientHeight)
     console.log(percent)
-    if(percent >= 0.95 && !allLoaded) {
-        $(window).unbind('scroll');
-        renderQuotes(10, offset, chat)
+    if (percent >= 0.95 && !allLoaded) {
+      $(window).unbind('scroll')
+      renderQuotes(10, offset, chat)
     }
-  });
+  })
 }
 
 function loadFeed (chat) {
   renderQuotes(10, 0, chat)
 }
-
-
 
 function loadById () {
   const id = window.location.pathname
