@@ -48,7 +48,6 @@ function quoteTitle (quote) {
 
 function joinPhrasesWithSameAuthor (phrases) {
   return phrases.reduce((result, current) => {
-    console.log(current.name, result.at(-1)?.name)
     if (current.name && result.at(-1)?.name === current.name) {
       const last = result.at(-1)
       last.text += '\n' + current.text
@@ -213,7 +212,6 @@ function lever (chat, offset) {
       clientHeight
     } = document.documentElement
     const percent = scrollTop / (scrollHeight - clientHeight)
-    console.log(percent)
     if (percent >= 0.95 && !allLoaded) {
       $(window).unbind('scroll')
       renderQuotes(10, offset, chat)
