@@ -136,7 +136,16 @@ async function renderQuotes (count, offset, chat) {
       updateGalleries()
       updateText()
     })
-  
+    async function bounce() {
+      await sleep(1000);
+      lever(chat, offset + 10)
+    }
+    
+    bounce();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function updateGalleries () {
@@ -160,7 +169,6 @@ function updateText () {
       b.push(_b[i])
     }
   }
-  console.log(b)
   for (var x = 0; x < b.length; x++)
   {
       for (var y = x + 1; y < b.length; y++)
@@ -244,7 +252,6 @@ function updateText () {
           {
             h[i].appendChild(temp[ii])
           }
-          console.log(h[i], h[j])
       }
       else
       {
@@ -257,31 +264,32 @@ function updateText () {
 let allLoaded = false
 const toggleAllLoaded = () => { allLoaded = true }
 
-function loadFeed (chat) {
-  renderQuotes(10, 0, chat)
-  let offset = 10
-
-  window.addEventListener('scroll', () => {
+function lever(chat, offset) {
+  $(window).scroll(function() {
     const {
       scrollTop,
       scrollHeight,
       clientHeight
     } = document.documentElement
-
-    if (scrollTop + clientHeight >= scrollHeight - 30 && !allLoaded) {
-      renderQuotes(10, offset, chat)
-      offset += 10
+    var percent = scrollTop/(scrollHeight - clientHeight)
+    console.log(percent)
+    if(percent >= 0.95 && !allLoaded) {
+        $(window).unbind('scroll');
+        renderQuotes(10, offset, chat)
     }
-  }, {
-    passive: true
-  })
+  });
 }
 
-function loadById () {
-  const id = window.location.pathname.split('/').at(-1)
+function loadFeed (chat) {
+  renderQuotes(10, 0, chat)
+}
 
+
+
+function loadById () {
+  const id = window.location.pathname
   const host = window.location.protocol + '//' + window.location.host
-  const url = new URL(host + '/api/quote/' + id)
+  const url = new URL(host + '/api/quote' + id)
 
   fetch(url)
     .then((response) => {

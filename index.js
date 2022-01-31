@@ -60,26 +60,29 @@ app.get('/api/quotes/:id', async function (req, res) {
   }
 })
 
-app.get('/api/quote/:id', async function (req, res) {
+app.get('/api/quote/:chat/:id', async function (req, res) {
   const id = req.params.id
+  const chat = req.params.chat
 
   quoList = quoIterate(quoList)
+  if (quoList.includes(chat))
+  {
+    const quo = mongoose.model(chat)
 
-  const quo = mongoose.model('freespeak')
+    const list = (await quo.find()
+      .sort({ _id: 1 })
+      .lean())
+      .map((elem) => { delete elem._id; return elem })
 
-  const list = (await quo.find()
-    .sort({ _id: 1 })
-    .lean())
-    .map((elem) => { delete elem._id; return elem })
+    const quote = Array.from(list)
 
-  const quote = Array.from(list)
+    const q = quote[id]
 
-  const q = quote[id]
+    q.id = id
 
-  q.id = id
-
-  res.writeHead(200, { 'Content-Type': 'application/json ' })
-  res.end(JSON.stringify(q))
+    res.writeHead(200, { 'Content-Type': 'application/json ' })
+    res.end(JSON.stringify(q))
+  }
 })
 
 app.get('/', async function (req, res) {
@@ -138,7 +141,7 @@ app.get('/:name/:id', async function (req, res) {
 
     const list = await quo.find({}).lean()
     if (list[g]) {
-      res.render('result', { title: g })
+      res.render('result', { title: name + '/' + String(g)})
     } else {
       res.status(404)
       if (req.accepts('html')) {
