@@ -8,8 +8,11 @@ const path = require('path')
 const { Schema } = require('mongoose')
 const dotenv = require('dotenv')
 
+const mode = process.env.mode | 'prod'
+
 function quoIterate (glist) {
-  let quoJSON = fs.readFileSync('../quote-bot/chats.json')
+  const chatsPath = mode === 'dev' ? 'chats.json' : '../quote-bot/chats.json'
+  let quoJSON = fs.readFileSync(chatsPath)
   quoJSON = JSON.parse(quoJSON)
   const quoList = []
   for (let i = 0; i < quoJSON.chats.length; i++) {
@@ -28,8 +31,9 @@ dotenv.config()
 
 app.engine('handlebars', exphbs())
 app.set('view engine', 'handlebars')
+
 app.use('/public', express.static('public'))
-app.use(express.static(path.join(__dirname, '/public')))
+app.use('/pics', express.static('pics'))
 
 const options = {
   key: fs.readFileSync('ssl/key.pem'),
@@ -97,19 +101,6 @@ app.get('/', async function (req, res) {
   }
   res.render('main', { title: 'СЬЛРЖАЛСЧ цитатник', chats })
 })
-app.get('/pics/:id', (req, res) => {
-  const id = req.params.id
-  fs.readFile('./pics/' + id, function (err, data) {
-    if (err) throw err
-    if (id.includes('.svg')) {
-      res.writeHead(200, { 'Content-Type': 'image/svg+xml ' })
-      res.end(data)
-    } else {
-      res.writeHead(200, { 'Content-Type': 'image/png' })
-      res.end(data)
-    }
-  })
-})
 
 app.get('/robots.txt', function (req, res) {
   res.type('text/plain')
@@ -170,6 +161,7 @@ async function start () {
         useNewUrlParser: true
       }
     )
+    console.log('Started at https://localhost:3001')
     https.createServer(options, app).listen(3001)
   } catch (e) {
     console.log(e)
