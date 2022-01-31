@@ -106,7 +106,13 @@ function renderMessage (message) {
 
 function quoteContent (quote) {
   if (Array.isArray(quote.qu)) {
-    quote.qu = joinPhrasesWithSameAuthor(quote.qu)
+    if (typeof quote.qu[0] === 'string')
+    {
+      quote.qu = quote.qu.join('\n')
+      return createElem('div', ['content'], [renderMessage(quote)])
+    } else {
+      quote.qu = joinPhrasesWithSameAuthor(quote.qu)
+    }
     return createElem('div', ['content'], quote.qu.map((message) => renderMessage(message)))
   } else {
     return createElem('div', ['content'], [renderMessage(quote)])
