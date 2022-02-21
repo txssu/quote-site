@@ -29,11 +29,44 @@ function quoIterate (glist) {
 }
 let quoList = quoIterate([])
 
+function notFound (req, res) {
+  res.status(404)
+  if (req.accepts('html')) {
+    res.render('404', { url: req.get('host') + req.url })
+  }
+}
+
+function uniteArr(arr)
+{
+    var i = 0
+    while (true)
+    {
+        if (i > 0 && Array.isArray(arr[i]) && Array.isArray(arr[i - 1]))
+        {
+            for (let j = 0; j < arr[i].length; j++)
+            {
+                arr[i - 1].push(arr[i][j])
+            }
+            arr.splice(i, 1)
+            i -= 1
+        }
+        if (arr.length > i)
+        {
+            i++
+        }
+        else
+        {
+            break
+        }
+    }
+    return arr
+}
+
 app.engine('handlebars', exphbs())
 app.set('view engine', 'handlebars')
-
-app.use('/public', express.static('public'))
 app.use('/pics', express.static('pics'))
+app.use('/public', express.static('public'))
+// app.use(express.static(path.join(__dirname, '/public')))
 
 const options = {
   key: fs.readFileSync('ssl/key.pem'),
@@ -50,13 +83,19 @@ app.get('/api/quotes/:id', async function (req, res) {
     const quo = mongoose.model(chat)
     let lastID = await quo.count() - 1 - offset
 
-    const list = (await quo.find()
+    var list = (await quo.find()
       .sort({ _id: -1 })
       .skip(offset)
       .limit(count)
       .lean())
       .map((elem) => { delete elem._id; return elem })
       .map((elem) => { elem.id = lastID--; return elem })
+
+    for (let i = 0; i < list.length; i++)
+    {
+      list = Array.from(list)
+      list[i].qu = uniteArr(list[i].qu)
+    }
 
     res.writeHead(200, { 'Content-Type': 'application/json ' })
     res.end(JSON.stringify(list))
@@ -78,7 +117,8 @@ app.get('/api/quote/:chat/:id', async function (req, res) {
 
     const quote = Array.from(list)
 
-    const q = quote[id]
+    var q = quote[id]
+    q.qu = uniteArr(q.qu)
 
     q.id = id
 
@@ -113,11 +153,7 @@ app.get('/:id', async function (req, res) {
   if (quoList.includes(idd)) {
     res.render('index', { title: idd })
   } else {
-    res.status(404)
-
-    if (req.accepts('html')) {
-      res.render('404', { url: req.get('host') + req.url })
-    }
+    notFound(req, res)
   }
 })
 
@@ -132,25 +168,15 @@ app.get('/:name/:id', async function (req, res) {
     if (list[g]) {
       res.render('result', { title: name + '/' + String(g) })
     } else {
-      res.status(404)
-      if (req.accepts('html')) {
-        res.render('404', { url: req.get('host') + req.url })
-      }
+      notFound(req, res)
     }
   } else {
-    res.status(404)
-
-    if (req.accepts('html')) {
-      res.render('404', { url: req.get('host') + req.url })
-    }
+    notFound(req, res)
   }
 })
 
 app.use(function (req, res, next) {
-  res.status(404)
-  if (req.accepts('html')) {
-    res.render('404', { url: req.get('host') + req.url })
-  }
+  notFound(req, res)
 })
 
 async function start () {

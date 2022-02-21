@@ -41,11 +41,14 @@ body
     border-bottom: 1px solid #3a3a3a !important;
 }
 
-.el-text, .author 
+.author 
 {
     color: #fff !important;
 }
-
+.el-text
+{
+    color: rgb(218, 218, 218) !important;
+}
 .author:hover
 {
     text-decoration: none;
@@ -69,9 +72,9 @@ a
     text-decoration: underline;
 }
 
-.id, .date
+.date, .id
 {
-    color: #aaa !important;    
+    color: rgb(255, 255, 255) !important;
 }
 
 .imgs-grid .imgs-grid-image:before

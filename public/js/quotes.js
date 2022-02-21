@@ -161,7 +161,6 @@ async function renderQuotes (count, offset, chat) {
         feed.appendChild(renderQuote(quote))
       })
       updateGalleries()
-      updateText()
     })
   async function bounce () {
     await sleep(1000)
@@ -184,27 +183,6 @@ function updateGalleries () {
         align: false
       })
     })
-}
-
-function updateText () {
-  let h = document.getElementsByClassName('nested-nname-cont')
-  h = [].slice.call(h)
-  let c = document.getElementsByClassName('nname-cont')
-  c = [].slice.call(c)
-  for (var i = 0; i < h.length; i++) {
-    for (let j = i + 1; j < h.length; j++) {
-      const index_one = c.indexOf(h[i].lastElementChild)
-      const index_two = c.indexOf(h[j].firstChild)
-      if (h[i].parentElement == h[j].parentElement && index_two == index_one + 1) {
-        var temp = h[j].getElementsByClassName('nname-cont')
-        for (let ii = 0; ii < temp.length; ii++) {
-          h[i].appendChild(temp[ii])
-        }
-      } else {
-        i = j
-      }
-    }
-  }
 }
 
 let allLoaded = false
@@ -241,6 +219,5 @@ function loadById () {
     .then((data) => {
       document.getElementById('feed').appendChild(renderQuote(data))
       updateGalleries()
-      updateText()
     })
 }
