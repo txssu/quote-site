@@ -41,23 +41,25 @@ function uniteArr(arr)
     var i = 0
     while (true)
     {
-        if (i > 0 && Array.isArray(arr[i]) && Array.isArray(arr[i - 1]))
+      if (i > 0 && Array.isArray(arr[i]) && Array.isArray(arr[i - 1]))
+      {
+        arr[i - 1] = uniteArr(arr[i - 1])
+        arr[i] = uniteArr(arr[i])
+        for (let j = 0; j < arr[i].length; j++)
         {
-            for (let j = 0; j < arr[i].length; j++)
-            {
-                arr[i - 1].push(arr[i][j])
-            }
-            arr.splice(i, 1)
-            i -= 1
+            arr[i - 1].push(arr[i][j])
         }
-        if (arr.length > i)
-        {
-            i++
-        }
-        else
-        {
-            break
-        }
+        arr.splice(i, 1)
+        i -= 1
+      }
+      if (arr.length > i)
+      {
+          i++
+      }
+      else
+      {
+          break
+      }
     }
     return arr
 }
