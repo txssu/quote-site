@@ -38,13 +38,16 @@ function notFound (req, res) {
 
 function uniteArr(arr)
 {
+  
     var i = 0
     while (true)
     {
+      if (Array.isArray(arr[i]))
+      {
+        arr[i] = uniteArr(arr[i])
+      }
       if (i > 0 && Array.isArray(arr[i]) && Array.isArray(arr[i - 1]))
       {
-        arr[i - 1] = uniteArr(arr[i - 1])
-        arr[i] = uniteArr(arr[i])
         for (let j = 0; j < arr[i].length; j++)
         {
             arr[i - 1].push(arr[i][j])

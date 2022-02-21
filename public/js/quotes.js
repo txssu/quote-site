@@ -47,7 +47,7 @@ function quoteTitle (quote) {
 }
 
 function joinPhrasesWithSameAuthor (phrases) {
-  return phrases.reduce((result, current) => {
+  var list = phrases.reduce((result, current) => {
     if (current.name && result.at(-1)?.name === current.name) {
       const last = result.at(-1)
       last.text += '\n' + current.text
@@ -57,6 +57,15 @@ function joinPhrasesWithSameAuthor (phrases) {
       return result
     }
   }, [])
+  for (let i = 0; i < list.length; i++)
+  {
+    if (Array.isArray(list[i]))
+    {
+      list[i] = joinPhrasesWithSameAuthor(list[i])
+    }
+  }
+  return list
+  
 }
 
 function preprocessQuoteText (text) {
